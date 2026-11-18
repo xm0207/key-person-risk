@@ -1,5 +1,16 @@
-event,start_et,end_et,odds_start,odds_end,nvidia_abnormal
-16 Nov: report that the board is not considering a return,2026-11-16 12:35,2026-11-16 13:30,0.125,0.065,0.0017364767834955417
-17 Nov: offer to return,2026-11-17 10:55,2026-11-17 11:05,0.095,0.135,0.002424398077540227
-17 Nov: chair rules out a return on the call,2026-11-17 16:55,2026-11-17 17:15,0.125,0.095,-0.004471176974083224
-slope: Nvidia abnormal return per unit of odds (value of a certain return),,,,,0.02080698775645464
+event,news_et,minutes_either_side,odds_start,odds_end,nvidia_abnormal
+16 Nov: report that the board is not considering a return,2026-11-16 12:38,5,0.135,0.045,-0.0015965293909001315
+16 Nov: report that the board is not considering a return,2026-11-16 12:38,10,0.135,0.07500000000000001,-0.0013571985916763962
+16 Nov: report that the board is not considering a return,2026-11-16 12:38,15,0.135,0.065,-0.003247525657293024
+16 Nov: report that the board is not considering a return,2026-11-16 12:38,30,0.135,0.07500000000000001,-0.01008757045464272
+16 Nov: report that the board is not considering a return,2026-11-16 12:38,60,0.135,0.07500000000000001,-0.009609876486951191
+17 Nov: offer to return,2026-11-17 10:58,5,0.095,0.135,0.012032485590511004
+17 Nov: offer to return,2026-11-17 10:58,10,0.095,0.135,0.016499109147788273
+17 Nov: offer to return,2026-11-17 10:58,15,0.095,0.135,0.02015052915608506
+17 Nov: offer to return,2026-11-17 10:58,30,0.10500000000000001,0.11499999999999999,0.01872020267207477
+17 Nov: offer to return,2026-11-17 10:58,60,0.10500000000000001,0.11499999999999999,0.013249008827836122
+17 Nov: chair rules out a return on the call,2026-11-17 17:00,5,0.125,0.07500000000000001,-0.010090800585880903
+17 Nov: chair rules out a return on the call,2026-11-17 17:00,10,0.125,0.095,0.0037962784442060063
+17 Nov: chair rules out a return on the call,2026-11-17 17:00,15,0.125,0.095,0.00019612576737859766
+17 Nov: chair rules out a return on the call,2026-11-17 17:00,30,0.125,0.095,-0.0022638422948972623
+17 Nov: chair rules out a return on the call,2026-11-17 17:00,60,0.125,0.07500000000000001,0.02985741338220086

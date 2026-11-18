@@ -158,6 +158,18 @@ def main() -> None:
                     "total": e.sum(), "volume_vs_two_months_before": nv.loc[t, "volume"] / vol_base})
     pd.DataFrame(key).to_csv(ROOT / "results/nvidia_session_days.csv", index=False)
 
+    # Session-by-session cumulative abnormal return from the evening of 28 October, for the paper's figure.
+    # Kept in data/derived/ (not committed): it is a series built from Yahoo prices.
+    ends = {"pre": "09:30", "regular": "16:00", "after": "20:00"}
+    path = [{"ts": pd.Timestamp("2026-10-28 20:00", tz="America/New_York"), "session": "start", "car": 0.0}]
+    total = 0.0
+    for day in excess.index[excess.index >= DAY0]:
+        for sname in SESSIONS:
+            total += float(excess.loc[day, sname])
+            path.append({"ts": pd.Timestamp(f"{day.date()} {ends[sname]}", tz="America/New_York"),
+                         "session": sname, "car": total})
+    pd.DataFrame(path).to_parquet(ROOT / "data/derived/nvidia_session_path.parquet", index=False)
+
     pd.set_option("display.width", 220)
     print(table.round(3).to_string(index=False))
     print(pd.DataFrame(key).round(4).to_string(index=False))

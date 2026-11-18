@@ -4,22 +4,21 @@ All numbers below are Nvidia's own share-price moves: its return minus what the 
 
 ## What happened to Nvidia's share price
 
-**1. The day the CEO resigned.**
-- On closing prices, Nvidia fell 3.5% on 12 November. Counting from the last trade the night before, it rose 3.8%.
-- New allegations came out after the close on 11 November, and the stock fell 7.0% in after-hours trading.
-- The resignation was filed at 8:52 am on 12 November. The stock fell 5.4% before the open and rose 8.8% in regular trading.
+**1. In earlier scandals, investors usually wanted the CEO gone. At Nvidia they did not.** Of 79 personal-conduct scandals involving US CEOs since 2000, 8 became public before the CEO left. In 7 of those 8, the stock rose when the CEO went. At Nvidia, the stock fell each time the Kalshi odds of Huang leaving jumped.
 
-**2. Most of the moves happened while the main market was closed.** During the three weeks, 69% of Nvidia's own price moves happened before 9:30 am or after 4 pm. In the two months before, the figure was 26–36%.
-- The first story came out at 5 am.
-- The board's statement came on a Sunday.
-- The new allegations came after the close.
-- The resignation came before the open.
-
-**3. The board's statement moved the stock more than the newspaper story.**
+**2. The board's statement moved the stock, and the move was specific to Nvidia.**
 - After the first newspaper report, Nvidia's own move was about −1%.
-- After the board announced an investigation, it was −13.3% over two trading days, about $600 billion.
+- After the board announced an investigation, the Kalshi odds of a departure before 2029 rose from about one in ten to 53.5%. Nvidia's own move was −13.3% over two trading days, about $600 billion.
+- Other chip makers, which share Nvidia's China and export-control exposure, rose 8.2% over the same two days.
 
-**4. The rise at the departure has happened before.** Of 79 personal-conduct scandals involving US CEOs since 2000, 8 became public before the CEO left. In 7 of those 8, the stock rose when the CEO went.
+**3. The night of the resignation, minute by minute.**
+- New allegations reached the market just before 5 pm on 11 November. By 8 pm the odds of a departure before 2027 had gone from 18.5% to 88.5%, and Nvidia fell 7.0% in after-hours trading.
+- The resignation was announced before the open on 12 November (filing accepted at 8:52 am). In those ten minutes the odds went to 99.5% and Nvidia fell 2.9%.
+- Regular trading then lifted Nvidia 8.8% with the odds unchanged. On closing prices, 12 November shows −3.5%.
+
+**4. Most of the moves happened while the main market was closed.** During the three weeks, 69% of Nvidia's own price moves happened before 9:30 am or after 4 pm. In the two months before, the figure was 26–36%.
+
+**5. Successors.** In 1,211 forced CEO departures since 2000, the stock fell 2.7% on average when no permanent successor was in place at the departure, against 0.4% when one was.
 
 The working paper, with the details of every case, is [paper/personal_scandals.pdf](paper/personal_scandals.pdf).
 
@@ -54,7 +53,8 @@ make all       # sample -> analysis -> tables -> text numbers -> PDF -> tests
 |---|---|---|
 | WRDS (subscription) | CRSP daily stock file and names, Compustat (annual and quarterly), ExecuComp, the CRSP/Compustat link, Fama–French factors, RavenPack (Dow Jones edition) | `data/wrds/`. The web-query extracts are listed in `data/wrds/MANIFEST.md`; the rest come from `make wrds` |
 | Zenodo | Gentry, Harrison, Quigley and Boivie (2021) CEO dismissal database, version of 10 October 2024 ([10.5281/zenodo.17725939](https://doi.org/10.5281/zenodo.17725939)), CC BY 4.0 | `data/external/gentry/` |
-| Yahoo Finance | daily closes for Nvidia, the S&P 500 (SPY), six other mega-caps and sector funds, to 17 November 2026; daily and hourly bars with extended hours for Nvidia, SPY and the peers | `data/keyperson.duckdb`, `data/yahoo_sessions/` |
+| Yahoo Finance | daily closes for Nvidia, the S&P 500 (SPY), six other mega-caps, nine other chip makers and sector funds, to 17 November 2026; daily, hourly and five-minute bars with extended hours | `data/keyperson.duckdb`, `data/yahoo_sessions/`, `data/prediction_markets/` |
+| Kalshi, Polymarket | public price histories of the contracts on Nvidia's chief executive | `data/prediction_markets/` |
 | Crossref | bibliographic records of the references | `data/crossref/` (cache) |
 
 Nothing in `data/` is committed.
@@ -70,11 +70,15 @@ Nothing in `data/` is committed.
 | Sample | `build_event_sample.py` | Gentry database, CCM link, Compustat, RavenPack mappings | `data/derived/event_sample.parquet` | all CEO departures |
 | | `build_event_features.py` | event sample, ExecuComp, Compustat, RavenPack | `data/derived/event_features.parquet` | departure study |
 | | `build_scandal_candidates.py` | stage-4 headlines, ExecuComp | `data/derived/scandal_candidates*.csv` | hand coding |
-| Analysis | `run_departure_study.py` | event sample, features, stage-3 CRSP | `data/derived/departure_windows.parquet`, `results/departure_*.csv` | personal against corporate departures (Section 5) |
-| | `run_personal_scandals.py` | sample, hand codes, date corrections, stage-4 CRSP | `data/derived/personal_scandals.parquet`, `results/personal_scandal_*.csv` | Sections 5–7, Appendix B |
-| | `nvidia_timeline.py` | Yahoo prices | `results/nvidia_timeline.csv` | Section 2 |
-| | `nvidia_sessions.py` | Yahoo daily and hourly bars with extended hours | `results/nvidia_sessions.csv`, `results/nvidia_session_days.csv` | Section 2.1, Prediction 8 |
-| Paper | `paper_assets.py` | the outputs above | `paper/tables/*.tex`, `paper/fig_paths.pdf` | Tables 1–6, Figure 1 |
+| Analysis | `run_departure_study.py` | event sample, features, stage-3 CRSP | `data/derived/departure_windows.parquet`, `results/departure_*.csv` | personal against corporate departures (Section 4.2), successors (Section 5.5) |
+| | `run_personal_scandals.py` | sample, hand codes, date corrections, stage-4 CRSP | `data/derived/personal_scandals.parquet`, `results/personal_scandal_*.csv` | Section 4, Appendix B |
+| | `nvidia_timeline.py` | Yahoo prices | `results/nvidia_timeline.csv` | Section 5.1 |
+| | `nvidia_sessions.py` | Yahoo daily and hourly bars with extended hours | `results/nvidia_sessions.csv`, `results/nvidia_session_days.csv`, `data/derived/nvidia_session_path.parquet` | Section 5.2, Figure 2 |
+| | `nvidia_attribution.py` | Yahoo prices, including nine other chip makers | `results/nvidia_attribution.csv` | Section 5.4 |
+| | `prediction_markets.py` | Kalshi and Polymarket price histories, Yahoo five-minute prices | `results/prediction_market_*.csv` | Sections 5.2 and 5.3, Table 6 |
+| | `successors.py` | hand-checked successor announcements, stage-4 CRSP | `results/successor_summary.csv` | Section 5.5 |
+| | `successor_origin.py` | departure study, ExecuComp | `results/successor_origin.csv` | Section 5.5, Table 9 |
+| Paper | `paper_assets.py` | the outputs above | `paper/tables/*.tex`, `paper/fig_paths.pdf`, `paper/fig_nvidia.pdf` | all tables, Figures 1–2 |
 | | `paper_numbers.py` | the outputs above, and the .tex | `results/paper_text_numbers.csv` | every number quoted in the text but not in a table |
 | | `verify_references.py` | Crossref | `paper/refs.bib`, `paper/references_verification.csv` | references |
 
@@ -94,10 +98,10 @@ These are the judgements the paper rests on, kept separate from the code so they
 
 ## References
 
-`scripts/verify_references.py` queries Crossref for each reference and writes Crossref's metadata, not remembered values; all 42 were confirmed. Hand checks against publisher records are in `paper/references_manual.csv`. Its `content_checked` column records what was actually read:
+`scripts/verify_references.py` queries Crossref for each reference and writes Crossref's metadata, not remembered values; all 44 were confirmed. Hand checks against publisher records are in `paper/references_manual.csv`. Its `content_checked` column records what was actually read:
 
 - **Full texts** (through the author's library access, 17 November 2026): Cline, Walkling and Yore (2018), Borelli-Kjaer et al. (2021), Adams, Almeida and Ferreira (2005), Fahlenbrach (2009), Warner, Watts and Wruck (1988), Huson, Malatesta and Parrino (2004), Neyland (2020), and Johnson, Xie and Yi (2014).
-- **Abstracts only:** Finkelstein (1992), Fang and Peress (2009), Blackburne et al. (2021), Gelbach, Helland and Klick (2013), MacKinlay (1997).
+- **Abstracts only:** Finkelstein (1992), Blackburne et al. (2021), Barclay and Warner (1993), Barclay and Hendershott (2003), Gelbach, Helland and Klick (2013), MacKinlay (1997). Fang and Peress (2009) could not be opened and is not cited.
 - **Data documentation:** Gentry et al. (2021).
 
 The paper describes each paper only at the level that was read. News items and filings, which have no DOI, are in `paper/refs_news.bib`, which the script appends to `refs.bib`.
@@ -133,7 +137,7 @@ Yahoo Finance data are for personal use. WRDS data (CRSP, Compustat, ExecuComp, 
 ## Layout
 
 ```
-paper/           personal_scandals.tex and .pdf, tables/, fig_paths.pdf, refs.bib, refs_news.bib, reference checks
+paper/           personal_scandals.tex and .pdf, tables/, fig_paths.pdf, fig_nvidia.pdf, refs.bib, refs_news.bib, reference checks
 scripts/         the pipeline above, in the order of the Makefile
 src/keyperson/   the event-study library
 events/          hand-coded inputs

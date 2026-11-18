@@ -145,10 +145,20 @@ KEY_TIMES = ["2026-11-06 16:00", "2026-11-08 18:00", "2026-11-10 16:00", "2026-1
              "2026-11-11 19:59", "2026-11-12 08:50", "2026-11-16 12:35", "2026-11-16 13:30", "2026-11-17 10:55",
              "2026-11-17 11:05", "2026-11-17 16:55", "2026-11-17 17:15", "2026-11-18 09:00"]
 NVDA_BETA_SPY = 2.07  # Nvidia's daily beta on SPY in the paper's benchmark (nvidia_attribution.py, model A)
-# Odds moves and Nvidia's move over the same minutes: (label, start, end)
-CO_MOVES = [("16 Nov: report that the board is not considering a return", "2026-11-16 12:35", "2026-11-16 13:30"),
-            ("17 Nov: offer to return", "2026-11-17 10:55", "2026-11-17 11:05"),
-            ("17 Nov: chair rules out a return on the call", "2026-11-17 16:55", "2026-11-17 17:15")]
+# News about a return after the resignation: odds of reinstatement and Nvidia's move over windows of 5 to 60
+# minutes either side of the time of the news. The call of 17 November followed the results release of 16:20.
+CO_MOVES = [("16 Nov: report that the board is not considering a return", "2026-11-16 12:38"),
+            ("17 Nov: offer to return", "2026-11-17 10:58"),
+            ("17 Nov: chair rules out a return on the call", "2026-11-17 17:00")]
+CO_WINDOWS = [5, 10, 15, 30, 60]
+# The steps from the evening reports of 11 November to the close of 12 November: (label, start, end)
+STEPS = [("11 Nov, regular trading", "2026-11-11 09:30", "2026-11-11 16:00"),
+         ("11 Nov, 16:00-20:00: evening reports", "2026-11-11 16:00", "2026-11-11 20:00"),
+         ("11-12 Nov, 20:00-08:45: overnight, before the filing", "2026-11-11 20:00", "2026-11-12 08:45"),
+         ("12 Nov, 08:45-08:55: resignation announced", "2026-11-12 08:45", "2026-11-12 08:55"),
+         ("12 Nov, 08:55-09:30: rest of the pre-market session", "2026-11-12 08:55", "2026-11-12 09:30"),
+         ("12 Nov, 09:30-16:00: regular trading", "2026-11-12 09:30", "2026-11-12 16:00"),
+         ("11 Nov 16:00 - 12 Nov 16:00: close to close", "2026-11-11 16:00", "2026-11-12 16:00")]
 
 
 def analyze() -> None:
@@ -169,21 +179,35 @@ def analyze() -> None:
         rows.append(row)
     pd.DataFrame(rows).to_csv(ROOT / "results/prediction_market_probabilities.csv", index=False)
 
-    nv = pd.read_parquet(OUT / "yahoo5m_NVDA.parquet").dropna().set_index("ts")["close"]
-    sp = pd.read_parquet(OUT / "yahoo5m_SPY.parquet").dropna().set_index("ts")["close"]
+    # Yahoo stamps each five-minute bar with its start; shift to the end so that a bar's close is the price at
+    # the stamped time, as in the Kalshi candles, which are stamped with the end of the period.
+    bar = lambda sym: pd.read_parquet(OUT / f"yahoo5m_{sym}.parquet").dropna().set_index("ts")["close"]
+    shift = lambda x: x.set_axis(pd.DatetimeIndex(x.index) + pd.Timedelta("5min"))
+    nv, sp = shift(bar("NVDA")), shift(bar("SPY"))
     last = lambda s, t: s[s.index <= pd.Timestamp(t, tz=ET)].iloc[-1]
     q = kal("next_ceo_huang")
     co = []
-    for label, a, b in CO_MOVES:
-        dn = np.log(last(nv, b) / last(nv, a)) - NVDA_BETA_SPY * np.log(last(sp, b) / last(sp, a))
-        co.append({"event": label, "start_et": a, "end_et": b, "odds_start": at(q, a), "odds_end": at(q, b),
-                   "nvidia_abnormal": dn})
+    for label, t in CO_MOVES:
+        for w in CO_WINDOWS:
+            a = str(pd.Timestamp(t) - pd.Timedelta(minutes=w))[:16]
+            b = str(pd.Timestamp(t) + pd.Timedelta(minutes=w))[:16]
+            dn = np.log(last(nv, b) / last(nv, a)) - NVDA_BETA_SPY * np.log(last(sp, b) / last(sp, a))
+            co.append({"event": label, "news_et": t, "minutes_either_side": w, "odds_start": at(q, a),
+                       "odds_end": at(q, b), "nvidia_abnormal": dn})
     co = pd.DataFrame(co)
-    dq = co["odds_end"] - co["odds_start"]
-    slope = float((dq * co["nvidia_abnormal"]).sum() / (dq ** 2).sum())
-    co.loc[len(co)] = {"event": "slope: Nvidia abnormal return per unit of odds (value of a certain return)",
-                       "nvidia_abnormal": slope}
     co.to_csv(ROOT / "results/prediction_market_comoves.csv", index=False)
+
+    ex = {n: kal(n) for n in ["exit_by_2029", "exit_by_2027", "exit_by_dec1"]}
+    steps = []
+    for label, a, b in STEPS:
+        row = {"step": label, "start_et": a, "end_et": b,
+               "nvidia_raw": np.log(last(nv, b) / last(nv, a)),
+               "nvidia_abnormal": np.log(last(nv, b) / last(nv, a)) - NVDA_BETA_SPY * np.log(last(sp, b) / last(sp, a))}
+        for n, d in ex.items():  # the exit markets settled after the open on 12 November
+            cap = lambda t: min(t, "2026-11-12 09:00")
+            row[f"{n}_start"], row[f"{n}_end"] = at(d, cap(a)), at(d, cap(b))
+        steps.append(row)
+    pd.DataFrame(steps).to_csv(ROOT / "results/prediction_market_departure_steps.csv", index=False)
 
     joint = {}
     for f in OUT.glob("poly_*.parquet"):
@@ -200,6 +224,7 @@ def analyze() -> None:
     pd.set_option("display.width", 220)
     print(pd.DataFrame(rows).round(3).to_string(index=False))
     print(co.round(4).to_string(index=False))
+    print(pd.DataFrame(steps).drop(columns=["start_et", "end_et"]).round(4).to_string(index=False))
     print(cond.round(3).to_string(index=False))
 
 

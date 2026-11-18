@@ -6,7 +6,8 @@ not appear is printed, so a change in the data cannot leave a stale number in th
 
 Inputs: data/derived/personal_scandals.parquet (run_personal_scandals.py), data/derived/departure_windows.parquet
 (run_departure_study.py), data/derived/event_sample.parquet, events/gentry_misconduct_coding.csv,
-data/wrds/stage4/fundq_rdq.parquet, results/nvidia_timeline.csv.
+data/wrds/stage4/fundq_rdq.parquet, results/nvidia_timeline.csv, results/nvidia_attribution.csv, the Yahoo chip-maker
+prices, results/prediction_market_*.csv, results/successor_origin.csv and results/successor_summary.csv.
 
     ~/.venvs/key-person-risk/bin/python scripts/paper_numbers.py
 """
@@ -148,8 +149,9 @@ def main() -> None:
     add("Nvidia", "9-10 November loss in dollars ($bn, value on 6 November)", bn, f"about \\${round(bn, -2):.0f} billion")
     after = nv.loc[["2026-11-13", "2026-11-16", "2026-11-17"], "car_basket"].sum()
     add("Nvidia", "Nvidia: 13-17 November, company-specific", after, pc(after, math=True))
-    add("Nvidia", "Nvidia: 16 November", nv.loc["2026-11-16", "car_basket"], pc(nv.loc["2026-11-16", "car_basket"], math=True))
-    add("Nvidia", "Nvidia: 17 November", nv.loc["2026-11-17", "car_basket"], pc(nv.loc["2026-11-17", "car_basket"], sign=True, math=True))
+
+    nvidia_extra(add, px)
+    successor_numbers(add)
 
     out = pd.DataFrame(rows)
     tex = TEX.read_text()
@@ -159,6 +161,114 @@ def main() -> None:
     print(f"{len(out)} numbers; {len(missing)} not found in the paper as quoted")
     if len(missing):
         print(missing[["section", "quantity", "as_quoted"]].to_string(index=False))
+
+
+def nvidia_extra(add, px: pd.Series) -> None:
+    """Nvidia: sign test of the earlier cases, chip makers, attribution, Kalshi steps and reinstatement odds."""
+    from scipy.stats import binomtest
+
+    d = pd.read_parquet(ROOT / "data/derived/personal_scandals.parquet")
+    two = d[d["disclosure"] == "two-stage"]["main_exit"].dropna()
+    p = binomtest(int((two > 0).sum()), len(two), 0.5, alternative="greater").pvalue
+    add("Cases: allegation first", "sign test, rises at the exit (one-sided p)", p, f"probability of {p:.3f}")
+
+    att = pd.read_csv(ROOT / "results/nvidia_attribution.csv").set_index("model")
+    a, b = att.loc["A: SPY + mega-caps"], att.loc["B: SPY + mega-caps + chip makers"]
+    ep, d4 = a["29 Oct - 17 Nov: episode"], a["4 Nov: day after the election"]
+    add("Nvidia", "episode with the chip basket", b["29 Oct - 17 Nov: episode"], pc(b["29 Oct - 17 Nov: episode"], math=True))
+    add("Nvidia", "9-10 Nov with the chip basket", b["9-10 Nov: board investigation; CEO's email"],
+        pc(b["9-10 Nov: board investigation; CEO's email"], math=True))
+    add("Nvidia", "4 Nov abnormal, model A", d4, pc(d4, math=True))
+    add("Nvidia", "4 Nov abnormal, with chips", b["4 Nov: day after the election"], pc(b["4 Nov: day after the election"], math=True))
+    add("Nvidia", "episode without 4 Nov", ep - d4, pc(ep - d4, math=True))
+    add("Nvidia", "5-6 Nov abnormal", a["5-6 Nov: House request; memo report"], pc(a["5-6 Nov: House request; memo report"], sign=True, math=True))
+    add("Nvidia", "episode in dollars ($tn, value on 28 Oct)", -ep * SHARES_OUTSTANDING * px["2026-10-28"] / 1e12,
+        f"about \\${-ep * SHARES_OUTSTANDING * px['2026-10-28'] / 1e12:.1f} trillion")
+
+    import keyperson.data as kd
+    from keyperson.config import FIRMS, MIN_BASKET_MEMBERS
+    r = kd.load_returns(ROOT / "data/keyperson.duckdb")
+    r["mega"] = kd.ex_firm_basket(r, FIRMS, "NVDA", MIN_BASKET_MEMBERS)
+    chips = pd.read_parquet(ROOT / "data/yahoo_sessions/semis_daily_adjclose.parquet").pct_change()
+    r["chips"] = chips.mean(axis=1).reindex(r.index)
+    two_day = lambda x: (1 + x.loc["2026-11-09":"2026-11-10"]).prod() - 1
+    add("Nvidia", "chip basket 9-10 Nov", two_day(r["chips"]), pc(two_day(r["chips"])))
+    add("Nvidia", "AMD 9-10 Nov", two_day(chips["AMD"]), f"AMD rose by {pc(two_day(chips['AMD']))}")
+    add("Nvidia", "Broadcom 9-10 Nov", two_day(chips["AVGO"]), f"Broadcom by {pc(two_day(chips['AVGO']))}")
+    for day, col, txt in [("2026-10-30", "chips", "by {} on 30 October"), ("2026-11-05", "chips", "by {} on 5 November"),
+                          ("2026-11-05", "SPY", "SPY fell by {}"), ("2026-11-05", "NVDA", "and Nvidia by {}"),
+                          ("2026-11-16", "chips", "and by {} on 16 November"), ("2026-11-04", "SPY", "SPY rose by {}"),
+                          ("2026-11-04", "mega", "the other mega-caps by {}"), ("2026-11-04", "chips", "the chip makers fell by {}"),
+                          ("2026-11-04", "NVDA", "and Nvidia fell by {}")]:
+        v = r.loc[day, col]
+        add("Nvidia", f"{col} on {day}", v, txt.format(pc(v)))
+
+    k = pd.read_csv(ROOT / "results/prediction_market_probabilities.csv").set_index("time_et")
+    add("Nvidia", "2029 contract, 6 Nov close", k.loc["2026-11-06 16:00", "exit_by_2029"], f"{100 * k.loc['2026-11-06 16:00', 'exit_by_2029']:.1f}\\%")
+    add("Nvidia", "2029 contract, 10 Nov close", k.loc["2026-11-10 16:00", "exit_by_2029"], f"{100 * k.loc['2026-11-10 16:00', 'exit_by_2029']:.1f}\\%")
+    add("Nvidia", "2027 contract, 8 Nov evening", k.loc["2026-11-08 18:00", "exit_by_2027"], f"{100 * k.loc['2026-11-08 18:00', 'exit_by_2027']:.1f}\\%")
+    add("Nvidia", "2027 contract, 10 Nov close", k.loc["2026-11-10 16:00", "exit_by_2027"], f"{100 * k.loc['2026-11-10 16:00', 'exit_by_2027']:.1f}\\%")
+    board = nv_board = pd.read_csv(ROOT / "results/nvidia_timeline.csv").set_index("start").loc["2026-11-09", "car_basket"]
+    p10, p6, first_trade = k.loc["2026-11-10 16:00", "exit_by_2029"], k.loc["2026-11-06 16:00", "exit_by_2029"], 0.11
+    add("Nvidia", "board step: rise in p (pp)", p10 - first_trade, f"between {100 * (p10 - first_trade):.1f} and {100 * (p10 - p6):.0f} percentage points")
+    lo, hi = -board / (p10 - p6), -board / (p10 - first_trade)
+    add("Nvidia", "board step: K - D bounds", lo, f"between {100 * lo:.0f}\\% and {100 * hi:.0f}\\%")
+    v6 = SHARES_OUTSTANDING * px["2026-11-06"] / 1e12
+    add("Nvidia", "board step: K - D bounds ($tn)", lo * v6, f"\\${lo * v6:.1f} to \\${hi * v6:.1f} trillion")
+
+    st = pd.read_csv(ROOT / "results/prediction_market_departure_steps.csv").set_index("step")
+    ev, an, cc = (st.loc["11 Nov, 16:00-20:00: evening reports"], st.loc["12 Nov, 08:45-08:55: resignation announced"],
+                  st.loc["11 Nov 16:00 - 12 Nov 16:00: close to close"])
+    add("Nvidia", "evening: 2027 from", ev["exit_by_2027_start"], f"from {100 * ev['exit_by_2027_start']:.1f}\\% to {100 * ev['exit_by_2027_end']:.1f}\\%")
+    add("Nvidia", "evening: abnormal", ev["nvidia_abnormal"], pc(ev["nvidia_abnormal"], math=True))
+    add("Nvidia", "announcement: 2027 from", an["exit_by_2027_start"], f"from {100 * an['exit_by_2027_start']:.1f}\\% to {100 * an['exit_by_2027_end']:.1f}\\%")
+    add("Nvidia", "announcement: abnormal", an["nvidia_abnormal"], pc(an["nvidia_abnormal"], math=True))
+    rises = [an[f"exit_by_{c}_end"] - an[f"exit_by_{c}_start"] for c in ("2029", "2027", "dec1")]
+    add("Nvidia", "announcement: rises in p", rises[0], f"by {100 * rises[0]:.0f} percentage points on the contract with a deadline of 2029, by {100 * rises[1]:.0f} points")
+    add("Nvidia", "announcement: rise in p, Dec", rises[2], f"by {100 * rises[2]:.0f} points on the contract with a deadline of 1 December")
+    lo, hi = -an["nvidia_abnormal"] / max(rises), -an["nvidia_abnormal"] / min(rises)
+    add("Nvidia", "announcement: K - D", lo, f"between {100 * lo:.1f}\\% and {100 * hi:.1f}\\%")
+    add("Nvidia", "rest of pre-market", st.loc["12 Nov, 08:55-09:30: rest of the pre-market session", "nvidia_abnormal"],
+        pc(st.loc["12 Nov, 08:55-09:30: rest of the pre-market session", "nvidia_abnormal"], math=True))
+    add("Nvidia", "close to close (5-minute)", cc["nvidia_abnormal"], pc(cc["nvidia_abnormal"], math=True))
+    r29, r27 = cc["exit_by_2029_end"] - cc["exit_by_2029_start"], cc["exit_by_2027_end"] - cc["exit_by_2027_start"]
+    add("Nvidia", "close to close: rises in p", r29, f"by {100 * r29:.0f} points on the 2029 contract and by {100 * r27:.0f} points")
+    lo, hi = -cc["nvidia_abnormal"] / r27, -cc["nvidia_abnormal"] / r29
+    add("Nvidia", "close to close: K - D bound", lo, f"{100 * lo:.1f}\\% to {100 * hi:.1f}\\%")
+
+    co = pd.read_csv(ROOT / "results/prediction_market_comoves.csv")
+    for ev_name, fmt in [("16 Nov: report that the board is not considering a return", "between {} and {}"),
+                         ("17 Nov: offer to return", "between {} and {}"), ("17 Nov: chair rules out a return on the call", "from {} to {}")]:
+        x = co[co["event"] == ev_name]
+        dq = (x["odds_end"] - x["odds_start"]).abs()
+        lo_r, hi_r = sorted([x["nvidia_abnormal"].min(), x["nvidia_abnormal"].max()], key=abs) if ev_name.startswith("16") else (x["nvidia_abnormal"].min(), x["nvidia_abnormal"].max())
+        sgn = not ev_name.startswith("16")
+        add("Nvidia", f"{ev_name}: abnormal range", lo_r, fmt.format(pc(lo_r, sign=sgn, math=True), pc(hi_r, sign=sgn, math=True)))
+        if not ev_name.startswith("17 Nov: chair"):  # the text gives no odds change for the call
+            add("Nvidia", f"{ev_name}: odds change range (pp)", dq.min(), f"by {100 * dq.min():.0f} to {100 * dq.max():.0f}")
+    cond = pd.read_csv(ROOT / "results/prediction_market_conditional.csv").iloc[0]
+    add("Nvidia", "Polymarket: P(>4T | named)", cond["p_above_4T_if_named"], f"{100 * cond['p_above_4T_if_named']:.0f}\\% probability")
+    add("Nvidia", "Polymarket: P(>4T | not named)", cond["p_above_4T_if_not_named"], f"and {100 * cond['p_above_4T_if_not_named']:.0f}\\% if he were not")
+
+
+def successor_numbers(add) -> None:
+    k = pd.read_csv(ROOT / "results/successor_origin.csv").set_index("group")
+    a, o, i = (k.loc["forced: all with an identified successor"], k.loc["forced: named at the departure, outsider"],
+               k.loc["forced: named at the departure, insider"])
+    now, later = k.loc["forced: named at the departure, any origin"], k.loc["forced: named later, any origin"]
+    cfo, diff = k.loc["forced: named at the departure, chief financial officer"], k.loc["forced, named at the departure: outsider minus insider"]
+    add("Successors", "forced departures with a successor", a["cases"], f"{int(a['cases']):,} forced departures")
+    add("Successors", "in office within 30 days", now["cases"], f"{int(now['cases'])} had a successor in office within 30 days")
+    add("Successors", "outsider", o["median_m1_1"], f"was {pc(o['median_m1_1'], sign=True, math=True)} (mean {pc(o['mean_m1_1'], sign=True, math=True)}, standard error {100 * o['se_m1_1']:.1f}, {int(o['cases'])} cases)")
+    add("Successors", "insider", i["median_m1_1"], f"it was {pc(i['median_m1_1'], math=True)} (mean {pc(i['mean_m1_1'], math=True)}, standard error {100 * i['se_m1_1']:.1f}, {int(i['cases'])} cases)")
+    add("Successors", "difference in medians and rank-sum p", diff["median_m1_1"], f"{100 * diff['median_m1_1']:.1f} percentage points, with a p-value of {diff['rank_sum_p']:.2f}")
+    add("Successors", "named later", later["mean_m1_1"], f"was {pc(later['mean_m1_1'], math=True)} (standard error {100 * later['se_m1_1']:.1f}), against {pc(now['mean_m1_1'], math=True)} (standard error {100 * now['se_m1_1']:.1f})")
+    add("Successors", "CFO successors", cfo["median_m1_1"], f"In the {['zero','one','two','three','four','five','six','seven','eight','nine','ten'][int(cfo['cases'])]} forced departures in which the chief financial officer became chief executive at the departure, the median abnormal return was {pc(cfo['median_m1_1'], math=True)}")
+    h = pd.read_csv(ROOT / "results/successor_summary.csv").set_index("group")
+    add("Successors", "hand-checked: all", h.loc["all", "mean_m1_1"], f"the mean abnormal return was {pc(h.loc['all', 'mean_m1_1'], math=True)}, and it was positive in {['zero','one','two','three','four','five','six','seven','eight','nine','ten'][int(h.loc['all', 'positive'])]} of the {int(h.loc['all', 'cases'])} cases")
+    add("Successors", "hand-checked: outside", h.loc["outside hire", "mean_m1_1"], f"{pc(h.loc['outside hire', 'mean_m1_1'], math=True)} for the {int(h.loc['outside hire', 'cases'])} successors hired from outside")
+    add("Successors", "hand-checked: interim made permanent", h.loc["interim made permanent", "mean_m1_1"], f"{pc(h.loc['interim made permanent', 'mean_m1_1'], sign=True, math=True)} for the five interim")
+    add("Successors", "hand-checked: median days", h.loc["all", "median_days_from_departure"], f"median of {h.loc['all', 'median_days_from_departure']:.0f} days")
 
 
 if __name__ == "__main__":

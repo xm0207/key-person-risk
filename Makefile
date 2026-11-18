@@ -31,6 +31,7 @@ analysis:  ## event studies -> results/
 	$(PY) scripts/nvidia_timeline.py
 	$(PY) scripts/nvidia_sessions.py
 	$(PY) scripts/successors.py
+	$(PY) scripts/successor_origin.py
 	$(PY) scripts/nvidia_attribution.py
 	$(PY) scripts/prediction_markets.py analyze
 

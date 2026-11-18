@@ -180,6 +180,86 @@ def table_sessions() -> None:
     write("t_session_days.tex", "\n".join(rows) + "\n")
 
 
+def table_steps() -> None:
+    """Kalshi probabilities and Nvidia's return from the evening of 11 November to the close of 12 November
+    (scripts/prediction_markets.py analyze)."""
+    k = pd.read_csv(ROOT / "results/prediction_market_departure_steps.csv")
+    names = {"11 Nov, regular trading": "11 Nov, 09:30--16:00: regular trading",
+             "11 Nov, 16:00-20:00: evening reports": "11 Nov, 16:00--20:00: evening reports",
+             "11-12 Nov, 20:00-08:45: overnight, before the filing": "11 Nov 20:00 -- 12 Nov 08:45: overnight",
+             "12 Nov, 08:45-08:55: resignation announced": "12 Nov, 08:45--08:55: resignation announced",
+             "12 Nov, 08:55-09:30: rest of the pre-market session": "12 Nov, 08:55--09:30: rest of the pre-market session",
+             "12 Nov, 09:30-16:00: regular trading": "12 Nov, 09:30--16:00: regular trading",
+             "11 Nov 16:00 - 12 Nov 16:00: close to close": "11 Nov 16:00 -- 12 Nov 16:00: close to close"}
+    odds = lambda a, b: "" if pd.isna(a) and pd.isna(b) else (f"{100 * b:.1f}" if pd.isna(a) else f"{100 * a:.1f} $\\to$ {100 * b:.1f}")
+    rows = []
+    for r in k.itertuples():
+        if r.step == "11 Nov 16:00 - 12 Nov 16:00: close to close":
+            rows.append("\\midrule")
+        rows.append(f"{names[r.step]} & {odds(r.exit_by_2029_start, r.exit_by_2029_end)} & "
+                    f"{odds(r.exit_by_2027_start, r.exit_by_2027_end)} & {odds(r.exit_by_dec1_start, r.exit_by_dec1_end)} & "
+                    f"{pct(r.nvidia_raw)} & {pct(r.nvidia_abnormal)} \\\\")
+    write("t_steps.tex", "\n".join(rows) + "\n")
+
+
+def table_successors() -> None:
+    """Abnormal returns at forced departures by successor (scripts/successor_origin.py)."""
+    k = pd.read_csv(ROOT / "results/successor_origin.csv").set_index("group")
+    rows = []
+    for g, label in [("forced: all with an identified successor", "All forced departures with an identified successor"),
+                     ("forced: named at the departure, any origin", "Successor in office within 30 days"),
+                     ("forced: named at the departure, outsider", "\\quad outsider"),
+                     ("forced: named at the departure, insider", "\\quad insider"),
+                     ("forced: named at the departure, chief financial officer", "\\quad chief financial officer"),
+                     ("forced: named later, any origin", "Successor in office more than 30 days later"),
+                     ("forced: named later, outsider", "\\quad outsider"),
+                     ("forced: named later, insider", "\\quad insider")]:
+        r = k.loc[g]
+        rows.append(f"{label} & {int(r.cases)} & {pct(r.mean_m1_1)} ({pct(r.se_m1_1)}) & {pct(r.median_m1_1)} & "
+                    f"{100 * r.share_positive:.0f} \\\\")
+    write("t_successors.tex", "\n".join(rows) + "\n")
+
+
+def figure_nvidia() -> None:
+    """Nvidia's cumulative abnormal return by trading session, with the Kalshi odds of the CEO's departure."""
+    path = pd.read_parquet(ROOT / "data/derived/nvidia_session_path.parquet")
+    path["ts"] = pd.to_datetime(path["ts"]).dt.tz_convert("America/New_York").dt.tz_localize(None)
+    fig, ax = plt.subplots(figsize=(7.2, 3.9))
+    colours = {"pre": "#d62728", "regular": "#1f77b4", "after": "#9467bd"}
+    names = {"pre": "before the open", "regular": "regular trading", "after": "after the close"}
+    for i in range(1, len(path)):
+        a0, a1 = path.iloc[i - 1], path.iloc[i]
+        ax.plot([a0["ts"], a1["ts"]], [100 * a0["car"], 100 * a1["car"]], color=colours[a1["session"]], lw=1.6,
+                label=names[a1["session"]] if i <= 3 else None)
+    ax.set_ylabel("Cumulative abnormal return, %")
+    ax.axhline(0, color="grey", lw=0.6)
+    ax2 = ax.twinx()
+    for f, style, lab in [("kalshi_exit_by_2029.parquet", "--", "Kalshi: leaves before 2029"),
+                          ("kalshi_exit_by_2027.parquet", ":", "Kalshi: leaves before 2027")]:
+        k = pd.read_parquet(ROOT / "data/prediction_markets" / f).sort_values("ts").drop_duplicates("ts", keep="last")
+        k = k[k["res"] == "1h"].assign(mid=lambda x: (x["bid"] + x["ask"]) / 2).dropna(subset=["mid"])
+        k["ts"] = pd.to_datetime(k["ts"]).dt.tz_convert("America/New_York").dt.tz_localize(None)
+        k = k[(k["ts"] <= pd.Timestamp("2026-11-12 09:30")) & ((k["ask"] - k["bid"]) <= 0.2)].set_index("ts")["mid"]
+        gaps = k.index.to_series().diff() > pd.Timedelta(hours=3)  # break the line where quotes are missing
+        k = pd.concat([k, pd.Series(float("nan"), index=k.index[gaps] - pd.Timedelta(minutes=1))]).sort_index()
+        ax2.plot(k.index, 100 * k.values, color="black", ls=style, lw=1.0, label=lab)
+    ax2.set_ylabel("Probability of departure, %")
+    ax2.set_ylim(0, 105)
+    events = [("2026-10-29 05:01", "first report"), ("2026-11-08 12:00", "board investigation"),
+              ("2026-11-11 17:00", "new reports"), ("2026-11-12 08:52", "resignation filed"),
+              ("2026-11-17 10:58", "offer to return; results")]
+    for t, lab in events:
+        ax.axvline(pd.Timestamp(t), color="grey", lw=0.5, ls="-")
+        ax.text(pd.Timestamp(t), -33, lab, rotation=90, fontsize=6.5, color="grey", va="bottom", ha="right")
+    ax.set_ylim(-34, 4)
+    h1, l1 = ax.get_legend_handles_labels()
+    h2, l2 = ax2.get_legend_handles_labels()
+    fig.autofmt_xdate()
+    ax.legend(h1 + h2, l1 + l2, frameon=False, fontsize=7, loc="upper center", bbox_to_anchor=(0.5, -0.28), ncol=3)
+    fig.tight_layout()
+    fig.savefig(ROOT / "paper/fig_nvidia.pdf")
+
+
 def figure(d: pd.DataFrame) -> None:
     dsf = crsp.add_delisting(crsp.load_dsf(rps.WRDS / "stage4/dsf"), pd.read_parquet(rps.WRDS / "stage4/dsedelist.parquet"))
     panel = crsp.returns_panel(dsf, pd.read_parquet(rps.WRDS / "stage3/ff_factors_daily.parquet"))
@@ -215,7 +295,7 @@ def main() -> None:
     d = pd.read_parquet(ROOT / "data/derived/personal_scandals.parquet")
     d = d.rename(columns={"index": "case"}) if "index" in d else d
     d = d[d["disclosure"].isin(ORDER)]
-    table_period(); table_cars(d); table_robust(); table_coverage(); table_power(d); table_cases(d); table_nvidia(); table_sessions(); figure(d)
+    table_period(); table_cars(d); table_robust(); table_coverage(); table_power(d); table_cases(d); table_nvidia(); table_sessions(); table_steps(); table_successors(); figure(d); figure_nvidia()
     print(sorted(p.name for p in OUT.iterdir()))
 
 
