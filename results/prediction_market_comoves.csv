@@ -1,0 +1,5 @@
+event,start_et,end_et,odds_start,odds_end,nvidia_abnormal
+16 Nov: report that the board is not considering a return,2026-11-16 12:35,2026-11-16 13:30,0.125,0.065,0.0017364767834955417
+17 Nov: offer to return,2026-11-17 10:55,2026-11-17 11:05,0.095,0.135,0.002424398077540227
+17 Nov: chair rules out a return on the call,2026-11-17 16:55,2026-11-17 17:15,0.125,0.095,-0.004471176974083224
+slope: Nvidia abnormal return per unit of odds (value of a certain return),,,,,0.02080698775645464

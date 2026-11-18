@@ -18,6 +18,7 @@ wrds:      ## WRDS extracts -> data/wrds/ (the event sample is needed to choose 
 prices:    ## Yahoo Finance daily closes -> data/keyperson.duckdb, and daily and hourly bars -> data/yahoo_sessions/
 	$(PY) scripts/download_data.py
 	$(PY) scripts/nvidia_sessions.py --refresh
+	$(PY) scripts/prediction_markets.py fetch
 
 sample:    ## departures, their features, and the headline candidates
 	$(PY) scripts/build_event_sample.py
@@ -31,6 +32,7 @@ analysis:  ## event studies -> results/
 	$(PY) scripts/nvidia_sessions.py
 	$(PY) scripts/successors.py
 	$(PY) scripts/nvidia_attribution.py
+	$(PY) scripts/prediction_markets.py analyze
 
 tables:    ## paper/tables/*.tex and paper/fig_paths.pdf
 	$(PY) scripts/paper_assets.py
