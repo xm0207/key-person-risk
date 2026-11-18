@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "keyperson"
+version = "0.1.0"
+description = "Key-person risk at the largest US firms: an event study of CEO events, 2009-2026"
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [{ name = "Xiangzhong (Shaun) Meng" }]
+dependencies = [
+    "mega7 @ git+https://github.com/xm0207/mega7-decomposition.git@4e554ebdf9208048d6bf8439c619c8cab8d4a724",
+    "numpy",
+    "pandas",
+    "scipy",
+    "duckdb",
+    "matplotlib",
+    "statsmodels",
+    "openpyxl",
+]
+
+[project.optional-dependencies]
+dev = ["pytest"]
+wrds = ["wrds", "pyarrow"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

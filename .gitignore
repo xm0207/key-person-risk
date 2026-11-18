@@ -1,0 +1,28 @@
+# Downloaded prices (Yahoo Finance, personal use only), the DuckDB database and cached Crossref answers
+# are rebuilt by the scripts and are never committed
+data/
+
+# LaTeX build files
+paper/*.aux
+paper/*.log
+paper/*.bbl
+paper/*.blg
+paper/*.out
+paper/*.toc
+paper/*.synctex.gz
+
+# Python
+__pycache__/
+*.egg-info/
+.pytest_cache/
+.venv/
+venv/
+
+# OS
+.DS_Store
+paper/*.aux
+paper/*.log
+paper/*.blg
+paper/*.bbl
+paper/*.out
+paper/build.log

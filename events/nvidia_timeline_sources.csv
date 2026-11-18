@@ -1,0 +1,16 @@
+date,time_et,event,source,checked
+2026-10-29,,Company response through a spokesperson,https://www.cnbc.com/2026/10/29/nvidia-jensen-huang-chinese-intelligence-asset.html,secondary report
+2026-10-29,05:01,Newspaper report (NYT) on the CEO's relationship with an executive of a cloud customer; first published 05:01 EDT,https://www.nytimes.com/2026/10/29/us/politics/nvidia-china-jensen-huang-trump.html,publisher page metadata
+2026-10-31,,Saturday newspaper report (WSJ) on intelligence officials' concerns about the customer executive,https://abcnews.com/Business/timeline-stunning-fall-powerful-nvidia-ceo-jensen-huang/story?id=138041659,secondary report
+2026-11-05,16:09,"Letter from three House committee chairs asking the CEO for a closed-door briefing (CNBC story time, after the close)",https://www.cnbc.com/2026/11/05/nvidia-jensen-huang-china-spy-congress.html,secondary report
+2026-11-06,,Newspaper report (NYT) on a US government memo,https://www.nytimes.com/2026/11/06/us/politics/chinese-spy-agency-nvidia-jensen-huang.html,URL only; page not readable
+2026-11-08,,Sunday: board announces an independent investigation; CEO's email to staff ('A message to our company'),https://nvidianews.nvidia.com/news/a-message-to-our-company,company newsroom
+2026-11-11,,Board accepts the CEO's resignation (8-K Item 5.02 event date),https://www.sec.gov/Archives/edgar/data/1045810/000104581026000082/nvda-20261111.htm,SEC filing read
+2026-11-11,after 16:00,Reports of a relationship with a direct report and of a board meeting; shares about 8% lower after hours,https://www.nytimes.com/2026/11/11/technology/jensen-huang-nvidia-affair.html,secondary reports; NYT page not readable
+2026-11-12,08:52,8-K and press release accepted by EDGAR before the open: interim CEO and first chair named,https://www.sec.gov/Archives/edgar/data/1045810/000104581026000082/0001045810-26-000082-index.htm,SEC filing read
+2026-11-13,,Board representative says the board is selecting a search firm (reported by CNBC on 16 Nov),https://www.cnbc.com/2026/11/16/nvidia-ceo-jensen-huang.html,secondary report read
+2026-11-16,12:38,"Report (CNBC, source) that the board is not considering bringing the former CEO back; law firm leads the investigation",https://www.cnbc.com/2026/11/16/nvidia-ceo-jensen-huang.html,secondary report read
+2026-11-17,10:58,Former CEO's statement offering to return (CNBC story time); sources say the board is not considering it,https://www.cnbc.com/2026/11/17/nvidia-jensen-huang-statement.html,secondary report
+2026-11-17,16:20,Q3 FY2027 results 8-K accepted after the close; mentions the 'ongoing investigation by an independent committee',https://www.sec.gov/Archives/edgar/data/1045810/000104581026000088/0001045810-26-000088-index.htm,SEC filing read
+2026-11-17,17:00,Earnings call: board chair says the board 'does not intend to reinstate Jensen as CEO'; internal and external candidates,https://techcrunch.com/2026/11/17/nvidia-says-it-doesnt-plan-to-reappoint-jensen-huang-as-ceo/,secondary report read
+2026-11-17,after 16:20,Shares rose more than 3% in extended trading after the results,https://www.cnbc.com/2026/11/17/nvidia-nvda-earnings-report-q3-2027.html,secondary report read

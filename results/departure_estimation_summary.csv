@@ -1,0 +1,17 @@
+reason,status,events
+death,insufficient_history,1
+death,ok,63
+dismissed_misconduct,after_data_end,1
+dismissed_misconduct,insufficient_history,1
+dismissed_misconduct,ok,192
+dismissed_performance,after_data_end,10
+dismissed_performance,insufficient_history,35
+dismissed_performance,ok,1290
+illness,insufficient_history,2
+illness,ok,93
+new_opportunity,after_data_end,1
+new_opportunity,insufficient_history,4
+new_opportunity,ok,128
+retired,after_data_end,3
+retired,insufficient_history,50
+retired,ok,2704

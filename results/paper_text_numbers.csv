@@ -1,0 +1,34 @@
+section,quantity,value,as_quoted,in_paper
+Cases: quiet exits,one-stage: mean three-day CAR at the announcement,-0.03238285222835539,3.2\%,True
+Cases: quiet exits,one-stage: standard error of the mean,-2.8637961345405234,standard error 1.1,True
+Cases: quiet exits,one-stage: median,-0.017541349859080818,1.8\%,True
+Cases: quiet exits,"one-stage: mean CAR [-20,-2]",-0.02507472948525752,2.5\%,True
+Cases: quiet exits,one-stage: standard error of the pre-window mean,-1.3054020271054305,standard error 1.9,True
+Cases: quiet exits,one-stage: median dollar loss ($m),-27.327074447192075,\$27 million,True
+Cases: quiet exits,one-stage: departures within three days of earnings,9.0,Nine of the 66,True
+Cases: quiet exits,one-stage with earnings: mean CAR,-0.10587525413409907,10.6\%,True
+Cases: quiet exits,one-stage without earnings: mean CAR and standard error,-0.020778788769553757,2.1\% (standard error 1.1),True
+Cases: quiet exits,one-stage consumer-facing: cases,15.0,the 15 one-stage firms,True
+Cases: quiet exits,"one-stage consumer-facing: mean, median, t",-0.06846362458623022,"6.8\% (median 3.1\%, standard error 2.9)",True
+Cases: quiet exits,one-stage other industries: mean and median,-0.021770860358392204,2.2\% (median 1.1\%),True
+Cases: quiet exits,Gentry departures over personal conduct: cases,71.0,71 departures over personal conduct,True
+Cases: quiet exits,Gentry departures over personal conduct: mean and t,-0.027311903220116788,2.7\%,True
+Cases: quiet exits,Gentry departures over personal conduct: standard error,-2.5974075122094646,standard error 1.1,True
+Cases: quiet exits,Gentry departures over corporate wrongdoing: cases,98.0,98 departures over corporate wrongdoing,True
+Cases: quiet exits,Gentry departures over corporate wrongdoing: mean and t,-0.045169615922796745,4.5\%,True
+Cases: quiet exits,Gentry departures over corporate wrongdoing: standard error,-3.7441574271734264,standard error 1.2,True
+Cases: quiet exits,Boeing 2005: three-day CAR,0.005983764538779728,0.6\%,True
+Cases: quiet exits,Intel 2018: three-day CAR,-0.0040699981307102924,0.4\%,True
+Cases: quiet exits,Texas Instruments 2018: three-day CAR,-0.0053289481453318585,$-0.5$\%,True
+Cases: quiet exits,McDonald's 2019: three-day CAR,-0.02818114783665871,$-2.8$\%,True
+Cases: quiet exits,Booking 2016: three-day CAR,0.022013362960704712,$+2.2$\%,True
+Cases: quiet exits,HP 2010: three-day CAR,-0.08252823510102358,8.3\%,True
+Cases: allegation first,"two-stage: first news to exit, mean",-0.015241839160648396,$-1.5$\%,True
+Cases: allegation first,"two-stage: first news to exit, median",-0.005686184540049571,$-0.6$\%,True
+Cases: allegation first,Wynn Resorts: first news to exit,-0.0580510875608132,about 6\%,True
+Nvidia,company-specific return from 29 October to the last day in the data,-0.20740108711039773,20.7\%,True
+Nvidia,market value before the first report ($tn),5.23634922174943,\$5.2 trillion,True
+Nvidia,"9-10 November loss in dollars ($bn, value on 6 November)",602.1890781742534,about \$600 billion,True
+Nvidia,"Nvidia: 13-17 November, company-specific",-0.0015999857329355993,$-0.2$\%,True
+Nvidia,Nvidia: 16 November,-0.0052504080390232,$-0.5$\%,True
+Nvidia,Nvidia: 17 November,0.0157213943546762,$+1.6$\%,True

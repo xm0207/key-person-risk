@@ -1,0 +1,12 @@
+case,action,first_news,evidence
+G37104-201802,first_news,2018-01-26,RavenPack (MarketWatch) 26 Jan 2018: shares fall after a newspaper report of misconduct allegations; board announces an investigation on 27 Jan
+G29214-201809,first_news,2018-07-27,"RavenPack (Dow Jones) 27 Jul 2018, during trading hours: board will investigate allegations of misconduct by the CEO"
+G51870-202207,first_news,2022-06-15,"RavenPack (WSJ) 15 Jun 2022, before the close: board probes a payment by the CEO"
+G31032-201205,first_news,2012-04-18,"Reuters investigation of the CEO's personal loans, 18 Apr 2012; RavenPack (MarketWatch) 18 Apr 2012 10:15 ET: 'Chesapeake slumps'; law-firm notices the same day; the shareholder suit followed on 20 Apr"
+G64928-202003,drop,,Gentry exit misdated by a March 2020 story; the same exit is C0273 (July 2020)
+C0029,drop,,Story after the CEO had already left; the exit is G12942-200211
+G47026-201708,exit_date,2018-06-21,Gentry announcement date (company announced the resignation on 21 Jun 2018); the RavenPack match of Aug 2017 was an unrelated story
+G31032-201205,exit_date,2013-01-30,"CEO retirement announced after the close on 29 Jan 2013 (Chesapeake 8-K, SEC accession 0000895126-13-000040); the RavenPack match of 1 May 2012 was an unrelated story"
+G59706-202103,first_news,2020-12-28,"Leave of absence announced on Sunday 27 Dec 2020 after the CEO was referenced in an SEC civil complaint (Tronox 8-K, SEC accession 0001140361-20-029519)"
+C0253,first_news,2019-01-09,"CEO's announcement of his divorce, 9 Jan 2019, during trading hours (events/megacap_events.csv, AMZN-2019-01-09)"
+C0101,first_news,2007-07-12,"Newspaper report of the CEO's pseudonymous online posts, 11-12 Jul 2007; RavenPack comment piece 12 Jul 2007 12:54 ET; SEC informal inquiry 13 Jul; special committee 17 Jul. The P1 episode starts with a 20 Jul feature"

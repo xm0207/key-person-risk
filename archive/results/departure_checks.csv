@@ -1,0 +1,191 @@
+check,group,statistic,value,n
+1 data,all,min daily return,-0.998889,4665345
+1 data,all,share of |ret| > 50%,0.00013118000919546142,4665345
+2 model,death,mean beta,1.041611902942274,63
+2 model,death,median R2,0.23481460417700883,63
+2 model,death,"mean alpha, % a year",4.619428538920172,63
+2 model,dismissed_misconduct,mean beta,1.1958067241119832,192
+2 model,dismissed_misconduct,median R2,0.19046225574423276,192
+2 model,dismissed_misconduct,"mean alpha, % a year",-1.3287893311166077,192
+2 model,dismissed_performance,mean beta,1.138658622856716,1290
+2 model,dismissed_performance,median R2,0.1763597154385223,1290
+2 model,dismissed_performance,"mean alpha, % a year",-14.706221453253566,1290
+2 model,illness,mean beta,1.1339147025822076,93
+2 model,illness,median R2,0.27153362569845263,93
+2 model,illness,"mean alpha, % a year",2.205087555918848,93
+2 model,new_opportunity,mean beta,1.1241343625920988,128
+2 model,new_opportunity,median R2,0.22751306396926207,128
+2 model,new_opportunity,"mean alpha, % a year",-2.4162059541953482,128
+2 model,retired,mean beta,1.0748093666754543,2704
+2 model,retired,median R2,0.2467350508417689,2704
+2 model,retired,"mean alpha, % a year",3.7451477107233218,2704
+4 date source,dismissed_misconduct | gentry_announced,mean ann CAR,-0.022242288541021116,20
+4 date source,dismissed_misconduct | gentry_announced,t,-0.8705222094249534,20
+4 date source,dismissed_misconduct | left_office,mean ann CAR,-0.045792620869570755,73
+4 date source,dismissed_misconduct | left_office,t,-3.942831247166828,73
+4 date source,dismissed_misconduct | ravenpack,mean ann CAR,-0.02715388446013749,99
+4 date source,dismissed_misconduct | ravenpack,t,-2.6380369710168217,99
+4 date source,dismissed_performance | gentry_announced,mean ann CAR,-0.016335550458913724,262
+4 date source,dismissed_performance | gentry_announced,t,-3.0482645278614076,262
+4 date source,dismissed_performance | left_office,mean ann CAR,2.9703051504650363e-06,459
+4 date source,dismissed_performance | left_office,t,0.00035355644126374965,459
+4 date source,dismissed_performance | ravenpack,mean ann CAR,-0.02175010565012829,563
+4 date source,dismissed_performance | ravenpack,t,-4.829818163669104,563
+4 date source,new_opportunity | gentry_announced,mean ann CAR,-0.029478625765580326,32
+4 date source,new_opportunity | gentry_announced,t,-2.937351008926584,32
+4 date source,new_opportunity | left_office,mean ann CAR,-0.0027041784228880993,35
+4 date source,new_opportunity | left_office,t,-0.2213998915596511,35
+4 date source,new_opportunity | ravenpack,mean ann CAR,-0.04601527717597668,61
+4 date source,new_opportunity | ravenpack,t,-5.1786906195065505,61
+4 date source,retired | gentry_announced,mean ann CAR,-0.004525826934001441,645
+4 date source,retired | gentry_announced,t,-1.7739356821305334,645
+4 date source,retired | left_office,mean ann CAR,-0.0012959184314495188,961
+4 date source,retired | left_office,t,-0.7646671629532119,961
+4 date source,retired | ravenpack,mean ann CAR,-0.003449150879550197,1093
+4 date source,retired | ravenpack,t,-2.025091841466814,1093
+5 robust,dismissed_misconduct,median ann CAR,-0.015396744837761864,192
+5 robust,dismissed_misconduct,1%-winsorised mean ann CAR,-0.029936576626266174,192
+5 robust,dismissed_misconduct,"mean ann CAR, excl. 2008-09",-0.0336971083378544,177
+5 robust,dismissed_misconduct,"mean ann CAR, excl. smallest quarter",-0.03714866589628786,144
+5 robust,dismissed_performance,median ann CAR,-0.007383608298972351,1284
+5 robust,dismissed_performance,1%-winsorised mean ann CAR,-0.013431527101197835,1284
+5 robust,dismissed_performance,"mean ann CAR, excl. 2008-09",-0.014299190383453363,1156
+5 robust,dismissed_performance,"mean ann CAR, excl. smallest quarter",-0.012838235053058714,851
+5 robust,new_opportunity,median ann CAR,-0.014624109001870408,128
+5 robust,new_opportunity,1%-winsorised mean ann CAR,-0.030021039344508844,128
+5 robust,new_opportunity,"mean ann CAR, excl. 2008-09",-0.03304898172229281,111
+5 robust,new_opportunity,"mean ann CAR, excl. smallest quarter",-0.03218571965353525,101
+5 robust,retired,median ann CAR,-0.00277162270096595,2699
+5 robust,retired,1%-winsorised mean ann CAR,-0.0029376573256780086,2699
+5 robust,retired,"mean ann CAR, excl. 2008-09",-0.003489598583029651,2480
+5 robust,retired,"mean ann CAR, excl. smallest quarter",-0.003134869530304632,2126
+6 anticipation,dismissed_performance,"slope of ann CAR on [-120,-2] CAR",-0.0002763511238349837,1284
+6 anticipation,dismissed_performance,p,0.975716870389686,1284
+6 anticipation,dismissed_performance,"mean ann CAR, run-up worst third",-0.021470201789609223,428
+6 anticipation,dismissed_performance,"mean ann CAR, run-up middle",-0.007280836004645779,428
+6 anticipation,dismissed_performance,"mean ann CAR, run-up best third",-0.012478645970653072,428
+6 anticipation,dismissed_misconduct,"slope of ann CAR on [-120,-2] CAR",0.01915245441191165,192
+6 anticipation,dismissed_misconduct,p,0.36823550294919716,192
+6 anticipation,dismissed_misconduct,"mean ann CAR, run-up worst third",-0.04868839514321182,64
+6 anticipation,dismissed_misconduct,"mean ann CAR, run-up middle",-0.0206689686819982,64
+6 anticipation,dismissed_misconduct,"mean ann CAR, run-up best third",-0.03126231891950258,64
+"7 priced in, by dating",dismissed_performance | news-dated | car,mean pre_20_2,-0.0242525943351935,825
+"7 priced in, by dating",dismissed_performance | news-dated | car,mean ann_m1_1,-0.02003057418334257,825
+"7 priced in, by dating",dismissed_performance | news-dated | car,"share before, pre_20_2",0.5476707098102485,825
+"7 priced in, by dating",dismissed_performance | news-dated | car,"share CI low, pre_20_2",0.3920056755123533,825
+"7 priced in, by dating",dismissed_performance | news-dated | car,"share CI high, pre_20_2",0.6749332436807073,825
+"7 priced in, by dating",dismissed_performance | news-dated | car,mean pre_60_2,-0.06650309330553276,825
+"7 priced in, by dating",dismissed_performance | news-dated | car,mean ann_m1_1,-0.02003057418334257,825
+"7 priced in, by dating",dismissed_performance | news-dated | car,"share before, pre_60_2",0.768522763860463,825
+"7 priced in, by dating",dismissed_performance | news-dated | car,"share CI low, pre_60_2",0.67600138625012,825
+"7 priced in, by dating",dismissed_performance | news-dated | car,"share CI high, pre_60_2",0.8379082572560045,825
+"7 priced in, by dating",dismissed_performance | left-office-dated | car,mean pre_20_2,-0.03478808383498634,459
+"7 priced in, by dating",dismissed_performance | left-office-dated | car,mean ann_m1_1,2.9703051504650363e-06,459
+"7 priced in, by dating",dismissed_performance | left-office-dated | car,"share before, pre_20_2",1.000085390123793,459
+"7 priced in, by dating",dismissed_performance | left-office-dated | car,"share CI low, pre_20_2",0.6254146805104969,459
+"7 priced in, by dating",dismissed_performance | left-office-dated | car,"share CI high, pre_20_2",2.2694160041838556,459
+"7 priced in, by dating",dismissed_performance | left-office-dated | car,mean pre_60_2,-0.069885412326368,459
+"7 priced in, by dating",dismissed_performance | left-office-dated | car,mean ann_m1_1,2.9703051504650363e-06,459
+"7 priced in, by dating",dismissed_performance | left-office-dated | car,"share before, pre_60_2",1.0000425043124503,459
+"7 priced in, by dating",dismissed_performance | left-office-dated | car,"share CI low, pre_60_2",0.7921299138938217,459
+"7 priced in, by dating",dismissed_performance | left-office-dated | car,"share CI high, pre_60_2",1.3994377118583627,459
+"7 priced in, by dating",dismissed_misconduct | news-dated | car,mean pre_20_2,-0.029775456611150206,119
+"7 priced in, by dating",dismissed_misconduct | news-dated | car,mean ann_m1_1,-0.026328406154403648,119
+"7 priced in, by dating",dismissed_misconduct | news-dated | car,"share before, pre_20_2",0.5307202595938095,119
+"7 priced in, by dating",dismissed_misconduct | news-dated | car,"share CI low, pre_20_2",0.17718134036756847,119
+"7 priced in, by dating",dismissed_misconduct | news-dated | car,"share CI high, pre_20_2",0.7837569576770024,119
+"7 priced in, by dating",dismissed_misconduct | news-dated | car,mean pre_60_2,-0.04456346042877621,119
+"7 priced in, by dating",dismissed_misconduct | news-dated | car,mean ann_m1_1,-0.026328406154403648,119
+"7 priced in, by dating",dismissed_misconduct | news-dated | car,"share before, pre_60_2",0.6286117516244034,119
+"7 priced in, by dating",dismissed_misconduct | news-dated | car,"share CI low, pre_60_2",0.13658856344734696,119
+"7 priced in, by dating",dismissed_misconduct | news-dated | car,"share CI high, pre_60_2",0.8438911979496293,119
+"7 priced in, by dating",dismissed_misconduct | left-office-dated | car,mean pre_20_2,-0.03002051052223244,73
+"7 priced in, by dating",dismissed_misconduct | left-office-dated | car,mean ann_m1_1,-0.045792620869570755,73
+"7 priced in, by dating",dismissed_misconduct | left-office-dated | car,"share before, pre_20_2",0.39598035289013556,73
+"7 priced in, by dating",dismissed_misconduct | left-office-dated | car,"share CI low, pre_20_2",-0.27240253820120996,73
+"7 priced in, by dating",dismissed_misconduct | left-office-dated | car,"share CI high, pre_20_2",0.6516314688186458,73
+"7 priced in, by dating",dismissed_misconduct | left-office-dated | car,mean pre_60_2,-0.0543853425751732,73
+"7 priced in, by dating",dismissed_misconduct | left-office-dated | car,mean ann_m1_1,-0.045792620869570755,73
+"7 priced in, by dating",dismissed_misconduct | left-office-dated | car,"share before, pre_60_2",0.5428872848385564,73
+"7 priced in, by dating",dismissed_misconduct | left-office-dated | car,"share CI low, pre_60_2",-0.7714691645869062,73
+"7 priced in, by dating",dismissed_misconduct | left-office-dated | car,"share CI high, pre_60_2",0.8163498706923774,73
+"7 priced in, by dating",new_opportunity | news-dated | car,mean pre_20_2,0.002358257314799981,93
+"7 priced in, by dating",new_opportunity | news-dated | car,mean ann_m1_1,-0.040325246583152126,93
+"7 priced in, by dating",new_opportunity | news-dated | car,"share before, pre_20_2",-0.06211336111303763,93
+"7 priced in, by dating",new_opportunity | news-dated | car,"share CI low, pre_20_2",-1.0141675890364321,93
+"7 priced in, by dating",new_opportunity | news-dated | car,"share CI high, pre_20_2",0.28013445851798796,93
+"7 priced in, by dating",new_opportunity | news-dated | car,mean pre_60_2,-0.008545676455838057,93
+"7 priced in, by dating",new_opportunity | news-dated | car,mean ann_m1_1,-0.040325246583152126,93
+"7 priced in, by dating",new_opportunity | news-dated | car,"share before, pre_60_2",0.17486218643793874,93
+"7 priced in, by dating",new_opportunity | news-dated | car,"share CI low, pre_60_2",-3.184553219291009,93
+"7 priced in, by dating",new_opportunity | news-dated | car,"share CI high, pre_60_2",0.6096432179761786,93
+"7 priced in, by dating",new_opportunity | left-office-dated | car,mean pre_20_2,-0.02294210632814439,35
+"7 priced in, by dating",new_opportunity | left-office-dated | car,mean ann_m1_1,-0.0027041784228880993,35
+"7 priced in, by dating",new_opportunity | left-office-dated | car,"share before, pre_20_2",0.8945586680823532,35
+"7 priced in, by dating",new_opportunity | left-office-dated | car,"share CI low, pre_20_2",-2.1359017995131566,35
+"7 priced in, by dating",new_opportunity | left-office-dated | car,"share CI high, pre_20_2",4.196167255778078,35
+"7 priced in, by dating",new_opportunity | left-office-dated | car,mean pre_60_2,0.0013133725019496532,35
+"7 priced in, by dating",new_opportunity | left-office-dated | car,mean ann_m1_1,-0.0027041784228880993,35
+"7 priced in, by dating",new_opportunity | left-office-dated | car,"share before, pre_60_2",-0.9443247847718791,35
+"7 priced in, by dating",new_opportunity | left-office-dated | car,"share CI low, pre_60_2",-2.062233037340322,35
+"7 priced in, by dating",new_opportunity | left-office-dated | car,"share CI high, pre_60_2",3.7266095875232486,35
+"7 priced in, by dating",dismissed_performance | news-dated | car_noalpha,mean pre_20_2,-0.03381175063905033,825
+"7 priced in, by dating",dismissed_performance | news-dated | car_noalpha,mean ann_m1_1,-0.021539914652372597,825
+"7 priced in, by dating",dismissed_performance | news-dated | car_noalpha,"share before, pre_20_2",0.610853358449717,825
+"7 priced in, by dating",dismissed_performance | news-dated | car_noalpha,"share CI low, pre_20_2",0.49612702047391394,825
+"7 priced in, by dating",dismissed_performance | news-dated | car_noalpha,"share CI high, pre_20_2",0.7147892634435709,825
+"7 priced in, by dating",dismissed_performance | news-dated | car_noalpha,mean pre_60_2,-0.09618678919645661,825
+"7 priced in, by dating",dismissed_performance | news-dated | car_noalpha,mean ann_m1_1,-0.021539914652372597,825
+"7 priced in, by dating",dismissed_performance | news-dated | car_noalpha,"share before, pre_60_2",0.8170345898749394,825
+"7 priced in, by dating",dismissed_performance | news-dated | car_noalpha,"share CI low, pre_60_2",0.7571405776435486,825
+"7 priced in, by dating",dismissed_performance | news-dated | car_noalpha,"share CI high, pre_60_2",0.8693596861902838,825
+"7 priced in, by dating",dismissed_performance | left-office-dated | car_noalpha,mean pre_20_2,-0.048297513672791066,459
+"7 priced in, by dating",dismissed_performance | left-office-dated | car_noalpha,mean ann_m1_1,-0.002130097563976598,459
+"7 priced in, by dating",dismissed_performance | left-office-dated | car_noalpha,"share before, pre_20_2",0.9577593006740818,459
+"7 priced in, by dating",dismissed_performance | left-office-dated | car_noalpha,"share CI low, pre_20_2",0.70746626323563,459
+"7 priced in, by dating",dismissed_performance | left-office-dated | car_noalpha,"share CI high, pre_20_2",1.5232792670423663,459
+"7 priced in, by dating",dismissed_performance | left-office-dated | car_noalpha,mean pre_60_2,-0.11183574708586692,459
+"7 priced in, by dating",dismissed_performance | left-office-dated | car_noalpha,mean ann_m1_1,-0.002130097563976598,459
+"7 priced in, by dating",dismissed_performance | left-office-dated | car_noalpha,"share before, pre_60_2",0.9813093337699443,459
+"7 priced in, by dating",dismissed_performance | left-office-dated | car_noalpha,"share CI low, pre_60_2",0.855201009014999,459
+"7 priced in, by dating",dismissed_performance | left-office-dated | car_noalpha,"share CI high, pre_60_2",1.1604586731468063,459
+"7 priced in, by dating",dismissed_misconduct | news-dated | car_noalpha,mean pre_20_2,-0.029901645433574677,119
+"7 priced in, by dating",dismissed_misconduct | news-dated | car_noalpha,mean ann_m1_1,-0.02634833070531278,119
+"7 priced in, by dating",dismissed_misconduct | news-dated | car_noalpha,"share before, pre_20_2",0.5315850332050663,119
+"7 priced in, by dating",dismissed_misconduct | news-dated | car_noalpha,"share CI low, pre_20_2",0.2165347767652668,119
+"7 priced in, by dating",dismissed_misconduct | news-dated | car_noalpha,"share CI high, pre_20_2",0.7947593590500492,119
+"7 priced in, by dating",dismissed_misconduct | news-dated | car_noalpha,mean pre_60_2,-0.044955309929989064,119
+"7 priced in, by dating",dismissed_misconduct | news-dated | car_noalpha,mean ann_m1_1,-0.02634833070531278,119
+"7 priced in, by dating",dismissed_misconduct | news-dated | car_noalpha,"share before, pre_60_2",0.6304770630145365,119
+"7 priced in, by dating",dismissed_misconduct | news-dated | car_noalpha,"share CI low, pre_60_2",0.1974820753523921,119
+"7 priced in, by dating",dismissed_misconduct | news-dated | car_noalpha,"share CI high, pre_60_2",0.8356377880413919,119
+"7 priced in, by dating",dismissed_misconduct | left-office-dated | car_noalpha,mean pre_20_2,-0.0324498475733451,73
+"7 priced in, by dating",dismissed_misconduct | left-office-dated | car_noalpha,mean ann_m1_1,-0.046176200403956966,73
+"7 priced in, by dating",dismissed_misconduct | left-office-dated | car_noalpha,"share before, pre_20_2",0.4127111613534587,73
+"7 priced in, by dating",dismissed_misconduct | left-office-dated | car_noalpha,"share CI low, pre_20_2",-0.1321849318940518,73
+"7 priced in, by dating",dismissed_misconduct | left-office-dated | car_noalpha,"share CI high, pre_20_2",0.6606531827788144,73
+"7 priced in, by dating",dismissed_misconduct | left-office-dated | car_noalpha,mean pre_60_2,-0.06192907341810199,73
+"7 priced in, by dating",dismissed_misconduct | left-office-dated | car_noalpha,mean ann_m1_1,-0.046176200403956966,73
+"7 priced in, by dating",dismissed_misconduct | left-office-dated | car_noalpha,"share before, pre_60_2",0.5728589478440905,73
+"7 priced in, by dating",dismissed_misconduct | left-office-dated | car_noalpha,"share CI low, pre_60_2",-0.47083315066715775,73
+"7 priced in, by dating",dismissed_misconduct | left-office-dated | car_noalpha,"share CI high, pre_60_2",0.794459214596156,73
+"7 priced in, by dating",new_opportunity | news-dated | car_noalpha,mean pre_20_2,-0.0008339396396565366,93
+"7 priced in, by dating",new_opportunity | news-dated | car_noalpha,mean ann_m1_1,-0.04082927768122421,93
+"7 priced in, by dating",new_opportunity | news-dated | car_noalpha,"share before, pre_20_2",0.020016208379533454,93
+"7 priced in, by dating",new_opportunity | news-dated | car_noalpha,"share CI low, pre_20_2",-0.6791405853430776,93
+"7 priced in, by dating",new_opportunity | news-dated | car_noalpha,"share CI high, pre_20_2",0.30914409897587614,93
+"7 priced in, by dating",new_opportunity | news-dated | car_noalpha,mean pre_60_2,-0.01845828805125567,93
+"7 priced in, by dating",new_opportunity | news-dated | car_noalpha,mean ann_m1_1,-0.04082927768122421,93
+"7 priced in, by dating",new_opportunity | news-dated | car_noalpha,"share before, pre_60_2",0.3113348949852996,93
+"7 priced in, by dating",new_opportunity | news-dated | car_noalpha,"share CI low, pre_60_2",-1.0241716077197187,93
+"7 priced in, by dating",new_opportunity | news-dated | car_noalpha,"share CI high, pre_60_2",0.6082671909630806,93
+"7 priced in, by dating",new_opportunity | left-office-dated | car_noalpha,mean pre_20_2,-0.021122355872519424,35
+"7 priced in, by dating",new_opportunity | left-office-dated | car_noalpha,mean ann_m1_1,-0.0024168494035788947,35
+"7 priced in, by dating",new_opportunity | left-office-dated | car_noalpha,"share before, pre_20_2",0.8973266354904105,35
+"7 priced in, by dating",new_opportunity | left-office-dated | car_noalpha,"share CI low, pre_20_2",-1.8531929286005608,35
+"7 priced in, by dating",new_opportunity | left-office-dated | car_noalpha,"share CI high, pre_20_2",3.8059805828238606,35
+"7 priced in, by dating",new_opportunity | left-office-dated | car_noalpha,mean pre_60_2,0.006964176548364006,35
+"7 priced in, by dating",new_opportunity | left-office-dated | car_noalpha,mean ann_m1_1,-0.0024168494035788947,35
+"7 priced in, by dating",new_opportunity | left-office-dated | car_noalpha,"share before, pre_60_2",1.5314879107280734,35
+"7 priced in, by dating",new_opportunity | left-office-dated | car_noalpha,"share CI low, pre_60_2",-2.4917766189746478,35
+"7 priced in, by dating",new_opportunity | left-office-dated | car_noalpha,"share CI high, pre_60_2",3.830753701295786,35

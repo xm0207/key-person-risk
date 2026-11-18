@@ -1,0 +1,6 @@
+size_tercile,public,cases,coverage_median,coverage_mean,founder_share
+small,False,26,59.0,61.411764705882355,0.07692307692307693
+middle,False,23,85.0,89.58823529411765,0.043478260869565216
+middle,True,4,68.0,72.0,0.5
+large,False,17,154.5,206.35714285714286,0.0
+large,True,9,224.0,290.2,0.4444444444444444

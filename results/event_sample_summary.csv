@@ -1,0 +1,7 @@
+departure_code,reason,departures,permno_linked,ravenpack_linked,dated_by_ravenpack,gentry_date_available,median_abs_gap_days_vs_gentry,share_within_3_days_of_gentry,first_year,last_year
+1,death,64,64,53,37,28,1.0,0.765,2000,2022
+2,illness,98,95,90,52,49,1.0,0.75,2000,2022
+3,dismissed_performance,1473,1335,1146,597,586,1.0,0.83,2000,2024
+4,dismissed_misconduct,204,194,178,99,62,0.0,0.895,2000,2022
+5,retired,2879,2757,2584,1121,1264,1.0,0.847,2000,2023
+6,new_opportunity,149,133,128,66,70,0.0,0.914,2000,2023

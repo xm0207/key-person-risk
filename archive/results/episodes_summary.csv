@@ -1,0 +1,8 @@
+statistic,value
+episodes,1327.0
+firms,607.0
+episodes with a PERMNO,1272.0
+episodes with the sitting CEO identified,1264.0
+"CEO left within a year (any reason), share",0.1297
+"CEO dismissed within a year (codes 3-4), share",0.0696
+episodes with 3+ stories in the first 30 days,474.0
