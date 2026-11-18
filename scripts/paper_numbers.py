@@ -221,7 +221,8 @@ def nvidia_extra(add, px: pd.Series) -> None:
                   st.loc["11 Nov 16:00 - 12 Nov 16:00: close to close"])
     add("Nvidia", "evening: 2027 from", ev["exit_by_2027_start"], f"from {100 * ev['exit_by_2027_start']:.1f}\\% to {100 * ev['exit_by_2027_end']:.1f}\\%")
     add("Nvidia", "evening: abnormal", ev["nvidia_abnormal"], pc(ev["nvidia_abnormal"], math=True))
-    add("Nvidia", "announcement: 2027 from", an["exit_by_2027_start"], f"from {100 * an['exit_by_2027_start']:.1f}\\% to {100 * an['exit_by_2027_end']:.1f}\\%")
+    add("Nvidia", "announcement: 2027 before", an["exit_by_2027_start"], f"Overnight the probability slipped to {100 * an['exit_by_2027_start']:.1f}\\%")
+    add("Nvidia", "announcement: 2027 after", an["exit_by_2027_end"], f"the probability rose to {100 * an['exit_by_2027_end']:.1f}\\%")
     add("Nvidia", "announcement: abnormal", an["nvidia_abnormal"], pc(an["nvidia_abnormal"], math=True))
     rises = [an[f"exit_by_{c}_end"] - an[f"exit_by_{c}_start"] for c in ("2029", "2027", "dec1")]
     add("Nvidia", "announcement: rises in p", rises[0], f"by {100 * rises[0]:.0f} percentage points on the contract with a deadline of 2029, by {100 * rises[1]:.0f} points")

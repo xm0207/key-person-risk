@@ -74,9 +74,9 @@ Nothing in `data/` is committed.
 | Analysis | `run_departure_study.py` | event sample, features, stage-3 CRSP | `data/derived/departure_windows.parquet`, `results/departure_*.csv` | personal against corporate departures (Section 4.2), successors (Appendix C) |
 | | `run_personal_scandals.py` | sample, hand codes, date corrections, stage-4 CRSP | `data/derived/personal_scandals.parquet`, `results/personal_scandal_*.csv` | Section 4, Appendix B |
 | | `nvidia_timeline.py` | Yahoo prices | `results/nvidia_timeline.csv` | Section 5.1 |
-| | `nvidia_sessions.py` | Yahoo daily and hourly bars with extended hours | `results/nvidia_sessions.csv`, `results/nvidia_session_days.csv`, `data/derived/nvidia_session_path.parquet` | Section 5.2, Figure 2 |
-| | `nvidia_attribution.py` | Yahoo prices, including nine other chip makers | `results/nvidia_attribution.csv` | Section 5.4 |
-| | `prediction_markets.py` | Kalshi and Polymarket price histories, Yahoo five-minute prices | `results/prediction_market_*.csv` | Sections 5.2 and 5.3, Table 6 |
+| | `nvidia_sessions.py` | Yahoo daily and hourly bars with extended hours | `results/nvidia_sessions.csv`, `results/nvidia_session_days.csv`, `data/derived/nvidia_session_path.parquet` | Section 5.3, Figure 2 |
+| | `nvidia_attribution.py` | Yahoo prices, including nine other chip makers | `results/nvidia_attribution.csv` | Section 5.2 |
+| | `prediction_markets.py` | Kalshi and Polymarket price histories, Yahoo five-minute prices | `results/prediction_market_*.csv` | Sections 5.3 and 5.4, Table 6 |
 | | `successors.py` | hand-checked successor announcements, stage-4 CRSP | `results/successor_summary.csv` | Appendix C |
 | | `successor_origin.py` | departure study, ExecuComp | `results/successor_origin.csv` | Appendix C |
 | Paper | `paper_assets.py` | the outputs above | `paper/tables/*.tex`, `paper/fig_paths.pdf`, `paper/fig_nvidia.pdf` | all tables, Figures 1–2 |
