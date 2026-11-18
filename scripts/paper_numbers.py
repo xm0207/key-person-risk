@@ -206,8 +206,6 @@ def nvidia_extra(add, px: pd.Series) -> None:
     k = pd.read_csv(ROOT / "results/prediction_market_probabilities.csv").set_index("time_et")
     add("Nvidia", "2029 contract, 6 Nov close", k.loc["2026-11-06 16:00", "exit_by_2029"], f"{100 * k.loc['2026-11-06 16:00', 'exit_by_2029']:.1f}\\%")
     add("Nvidia", "2029 contract, 10 Nov close", k.loc["2026-11-10 16:00", "exit_by_2029"], f"{100 * k.loc['2026-11-10 16:00', 'exit_by_2029']:.1f}\\%")
-    add("Nvidia", "2027 contract, 8 Nov evening", k.loc["2026-11-08 18:00", "exit_by_2027"], f"{100 * k.loc['2026-11-08 18:00', 'exit_by_2027']:.1f}\\%")
-    add("Nvidia", "2027 contract, 10 Nov close", k.loc["2026-11-10 16:00", "exit_by_2027"], f"{100 * k.loc['2026-11-10 16:00', 'exit_by_2027']:.1f}\\%")
     board = nv_board = pd.read_csv(ROOT / "results/nvidia_timeline.csv").set_index("start").loc["2026-11-09", "car_basket"]
     p10, p6, first_trade = k.loc["2026-11-10 16:00", "exit_by_2029"], k.loc["2026-11-06 16:00", "exit_by_2029"], 0.11
     add("Nvidia", "board step: rise in p (pp)", p10 - first_trade, f"between {100 * (p10 - first_trade):.1f} and {100 * (p10 - p6):.0f} percentage points")
@@ -276,6 +274,15 @@ def succession_numbers(add) -> None:
         f"rose by {100 * h['Rene Haas: change']:.0f} percentage points and those of Mr Buck and Ms Kress fell by {-100 * h['Ian Buck: change']:.0f} and {-100 * h['Colette Kress: change']:.0f} points")
     add("Successor markets", "Haas report: Nvidia abnormal", h["nvidia_abnormal"], f"Nvidia's abnormal return was ${100 * h['nvidia_abnormal']:+.2f}$\\%")
     add("Successor markets", "Haas report: 30-minute noise", h["noise_sd"], f"the standard deviation of Nvidia's abnormal return was {100 * h['noise_sd']:.2f}\\%")
+    pre = pd.read_csv(ROOT / "results/succession_haas_report.csv").set_index(["start_et", "end_et"]).loc[("2026-11-13 09:35", "2026-11-13 11:45")]
+    add("Successor markets", "open to 11:45: Haas odds change", pre["Rene Haas: change"],
+        "did not change" if abs(pre["Rene Haas: change"]) < 0.005 else f"changed by {100 * pre['Rene Haas: change']:.0f} points")
+    add("Successor markets", "open to 11:45: Nvidia abnormal", pre["nvidia_abnormal"], f"Nvidia's abnormal return was {pc(pre['nvidia_abnormal'], math=True)}, about {pre['nvidia_abnormal'] / pre['noise_sd']:.0f}".replace("about -1", "about one").replace("about 1", "about one"))
+    ss = pd.read_csv(ROOT / "results/nvidia_sessions.csv")
+    cs = ss[ss["series"] == "Nvidia, company-specific"].set_index("window")
+    out_share = lambda w: 100 * (cs.loc[w, "wpc_pre"] + cs.loc[w, "wpc_after"])
+    add("Nvidia", "share outside regular hours", out_share("episode"),
+        f"{out_share('episode'):.0f}\\% of Nvidia's abnormal price movement took place outside regular trading hours, against {out_share('two months before'):.0f}\\% and {out_share('one month before'):.0f}\\%")
     v, se_v = h["nvidia_abnormal"] / h["Rene Haas: change"], h["noise_sd"] / h["Rene Haas: change"]
     add("Successor markets", "Haas: value difference", v, f"by {100 * v:.1f}\\% of Nvidia's value, with a standard error of about {100 * se_v:.0f} percentage points")
     meta = pd.DataFrame(json.loads((ROOT / "data/prediction_markets/succession/polymarket_meta.json").read_text()))

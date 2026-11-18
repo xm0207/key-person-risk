@@ -51,8 +51,6 @@ Nvidia,chips on 2026-11-04,-0.02361433674817617,the chip makers fell by 2.4\%,Tr
 Nvidia,NVDA on 2026-11-04,-0.031738339934721416,and Nvidia fell by 3.2\%,True
 Nvidia,"2029 contract, 6 Nov close",0.075,7.5\%,True
 Nvidia,"2029 contract, 10 Nov close",0.535,53.5\%,True
-Nvidia,"2027 contract, 8 Nov evening",0.175,17.5\%,True
-Nvidia,"2027 contract, 10 Nov close",0.165,16.5\%,True
 Nvidia,board step: rise in p (pp),0.42500000000000004,between 42.5 and 46 percentage points,True
 Nvidia,board step: K - D bounds,0.2885008507622009,between 29\% and 31\%,True
 Nvidia,board step: K - D bounds ($tn),1.3091066916831595,\$1.3 to \$1.4 trillion,True
@@ -88,6 +86,9 @@ Successor markets,named before 1 Feb 2027,0.485,before 1 February 2027 at 48.5\%
 Successor markets,Haas report: odds changes,0.2199999999999999,rose by 22 percentage points and those of Mr Buck and Ms Kress fell by 9 and 3 points,True
 Successor markets,Haas report: Nvidia abnormal,0.0001532227977995,Nvidia's abnormal return was $+0.02$\%,True
 Successor markets,Haas report: 30-minute noise,0.0045095206486608,the standard deviation of Nvidia's abnormal return was 0.45\%,True
+Successor markets,open to 11:45: Haas odds change,0.0,did not change,True
+Successor markets,open to 11:45: Nvidia abnormal,-0.0117349107206073,"Nvidia's abnormal return was $-1.2$\%, about one",True
+Nvidia,share outside regular hours,69.23425517765308,"69\% of Nvidia's abnormal price movement took place outside regular trading hours, against 36\% and 26\%",True
 Successor markets,Haas: value difference,0.0006964672627250004,"by 0.1\% of Nvidia's value, with a standard error of about 2 percentage points",True
 Successor markets,joint contracts: volume range,218.0,"between \$218 and \$1,111",True
 Successor markets,joint contracts: widest spread,0.24999999999999997,up to 25 cents apart,True

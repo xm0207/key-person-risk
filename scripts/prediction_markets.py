@@ -286,8 +286,8 @@ def succession_analyze() -> None:
     ab5 = (np.log(nv / nv.shift(1)) - NVDA_BETA_SPY * np.log(sp / sp.shift(1)))
     day = ab5[(ab5.index >= pd.Timestamp("2026-11-13 09:40", tz=ET)) & (ab5.index <= pd.Timestamp("2026-11-13 16:00", tz=ET))]
     ev = []
-    for a, b in [("2026-11-13 11:45", "2026-11-13 11:55"), ("2026-11-13 11:45", "2026-11-13 12:15"),
-                 ("2026-11-13 11:30", "2026-11-13 12:30")]:
+    for a, b in [("2026-11-13 09:35", "2026-11-13 11:45"), ("2026-11-13 11:45", "2026-11-13 11:55"),
+                 ("2026-11-13 11:45", "2026-11-13 12:15"), ("2026-11-13 11:30", "2026-11-13 12:30")]:
         n_bars = int((pd.Timestamp(b) - pd.Timestamp(a)) / pd.Timedelta("5min"))
         row = {"start_et": a, "end_et": b,
                "nvidia_abnormal": np.log(last(nv, b) / last(nv, a)) - NVDA_BETA_SPY * np.log(last(sp, b) / last(sp, a)),
