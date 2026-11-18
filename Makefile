@@ -29,6 +29,7 @@ analysis:  ## event studies -> results/
 	$(PY) scripts/run_personal_scandals.py
 	$(PY) scripts/nvidia_timeline.py
 	$(PY) scripts/nvidia_sessions.py
+	$(PY) scripts/successors.py
 
 tables:    ## paper/tables/*.tex and paper/fig_paths.pdf
 	$(PY) scripts/paper_assets.py
