@@ -101,7 +101,7 @@ These are the judgements the paper rests on, kept separate from the code so they
 
 `scripts/verify_references.py` queries Crossref for each reference and writes Crossref's metadata, not remembered values; all 44 were confirmed. Hand checks against publisher records are in `paper/references_manual.csv`. Its `content_checked` column records what was actually read:
 
-- **Full texts** (through the author's library access, 17 November 2026): Cline, Walkling and Yore (2018), Borelli-Kjaer et al. (2021), Adams, Almeida and Ferreira (2005), Fahlenbrach (2009), Warner, Watts and Wruck (1988), Huson, Malatesta and Parrino (2004), Neyland (2020), and Johnson, Xie and Yi (2014).
+- **Full texts** (through the author's library access, 17 November 2026): Cline, Walkling and Yore (2018), Borelli-Kjaer et al. (2021), Adams, Almeida and Ferreira (2005), Fahlenbrach (2009), Warner, Watts and Wruck (1988), Huson, Malatesta and Parrino (2004), Neyland (2020), and Johnson, Xie and Yi (2014); Johnson, Magee, Nagarajan and Newman (1985), read 18 November 2026.
 - **Abstracts only:** Finkelstein (1992), Blackburne et al. (2021), Barclay and Warner (1993), Barclay and Hendershott (2003), Gelbach, Helland and Klick (2013), MacKinlay (1997). Fang and Peress (2009) could not be opened and is not cited.
 - **Data documentation:** Gentry et al. (2021).
 
