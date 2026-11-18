@@ -30,6 +30,7 @@ analysis:  ## event studies -> results/
 	$(PY) scripts/nvidia_timeline.py
 	$(PY) scripts/nvidia_sessions.py
 	$(PY) scripts/successors.py
+	$(PY) scripts/nvidia_attribution.py
 
 tables:    ## paper/tables/*.tex and paper/fig_paths.pdf
 	$(PY) scripts/paper_assets.py
