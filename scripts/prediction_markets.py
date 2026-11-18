@@ -228,6 +228,79 @@ def analyze() -> None:
     print(cond.round(3).to_string(index=False))
 
 
+SUCCESSION_SERIES = ("KXNVDACEO", "KXNVDACEOHIRE", "KXNVDACEODATE")
+
+
+def succession_fetch() -> None:
+    """Hourly prices of every Kalshi market on Nvidia's next permanent CEO (who, internal or external, and when),
+    and the volume and liquidity that Polymarket reports for its related events."""
+    out = OUT / "succession"
+    out.mkdir(parents=True, exist_ok=True)
+    found = json.loads((OUT / "markets_found.json").read_text())
+    for m in found["kalshi"]:
+        if m["series"] in SUCCESSION_SERIES:
+            df = kalshi_candles(m["series"], m["ticker"], "2026-11-11 22:00", "2026-11-18 23:59", 60)
+            df.assign(series=m["series"], ticker=m["ticker"], outcome=m.get("yes_sub_title")).to_parquet(out / f"{m['ticker']}.parquet")
+    meta = []
+    for slug in POLY_EVENTS:
+        ev = get(f"{GAMMA}/events", slug=slug)
+        ev = ev[0] if isinstance(ev, list) and ev else ev
+        for m in ev.get("markets", []):
+            meta.append({"event": slug, "question": m.get("question"), "volume": m.get("volume"),
+                         "liquidity": m.get("liquidity"), "best_bid": m.get("bestBid"), "best_ask": m.get("bestAsk")})
+    (out / "polymarket_meta.json").write_text(json.dumps(meta, indent=1))
+    print(f"saved {len(list(out.glob('*.parquet')))} Kalshi markets and {len(meta)} Polymarket market records")
+
+
+HAAS_NEWS = "2026-11-13 11:50"   # largest move in the Haas contract on 13 Nov; the FT report is dated that day
+SNAPSHOT = "2026-11-18 14:00"
+
+
+def succession_analyze() -> None:
+    """Kalshi's distribution over Nvidia's next permanent CEO, the timing and internal/external markets, and the
+    co-movement of candidate probabilities and Nvidia's price around the report on Rene Haas."""
+    src = OUT / "succession"
+    d = pd.concat([pd.read_parquet(f) for f in src.glob("KX*.parquet")])
+    d["mid"] = (d["bid"] + d["ask"]) / 2
+    d["t"] = pd.to_datetime(d["ts"]).dt.tz_convert(ET)
+    snap = d[d["t"] <= pd.Timestamp(SNAPSHOT, tz=ET)].sort_values("t").groupby("ticker").tail(1)
+    cand = snap[snap["series"] == "KXNVDACEO"].sort_values("mid", ascending=False)
+    vol = d[d["series"] == "KXNVDACEO"].groupby("ticker")["volume"].sum()
+    cand = cand.assign(volume_to_date=cand["ticker"].map(vol))
+    rows = [{"table": "candidate", "outcome": r.outcome, "bid": r.bid, "ask": r.ask, "mid": r.mid,
+             "open_interest": r.open_interest, "volume_to_date": r.volume_to_date} for r in cand.itertuples()]
+    rows.append({"table": "candidate", "outcome": "sum of midpoints, all candidates", "mid": cand["mid"].sum()})
+    for r in snap[snap["series"] != "KXNVDACEO"].sort_values("ticker").itertuples():
+        rows.append({"table": r.series, "outcome": r.outcome, "bid": r.bid, "ask": r.ask, "mid": r.mid,
+                     "open_interest": r.open_interest})
+    pd.DataFrame(rows).assign(as_of_et=SNAPSHOT).to_csv(ROOT / "results/succession_markets.csv", index=False)
+
+    # Minute prices of the leading candidates around the Haas report, and Nvidia's five-minute abnormal return
+    names = {"Rene Haas": "RHAA", "Ian Buck": "IBUC", "Colette Kress": "CKRE", "Jensen Huang": "JENS"}
+    mins = {n: kalshi_candles("KXNVDACEO", f"KXNVDACEO-29JAN-{t}", "2026-11-13 09:30", "2026-11-13 16:00", 1)
+            .assign(mid=lambda x: (x["bid"] + x["ask"]) / 2).set_index("ts")["mid"] for n, t in names.items()}
+    bar = lambda sym: pd.read_parquet(OUT / f"yahoo5m_{sym}.parquet").dropna().set_index("ts")["close"]
+    shift = lambda x: x.set_axis(pd.DatetimeIndex(x.index) + pd.Timedelta("5min"))
+    nv, sp = shift(bar("NVDA")), shift(bar("SPY"))
+    last = lambda s, t: s[s.index <= pd.Timestamp(t, tz=ET)].iloc[-1]
+    ab5 = (np.log(nv / nv.shift(1)) - NVDA_BETA_SPY * np.log(sp / sp.shift(1)))
+    day = ab5[(ab5.index >= pd.Timestamp("2026-11-13 09:40", tz=ET)) & (ab5.index <= pd.Timestamp("2026-11-13 16:00", tz=ET))]
+    ev = []
+    for a, b in [("2026-11-13 11:45", "2026-11-13 11:55"), ("2026-11-13 11:45", "2026-11-13 12:15"),
+                 ("2026-11-13 11:30", "2026-11-13 12:30")]:
+        n_bars = int((pd.Timestamp(b) - pd.Timestamp(a)) / pd.Timedelta("5min"))
+        row = {"start_et": a, "end_et": b,
+               "nvidia_abnormal": np.log(last(nv, b) / last(nv, a)) - NVDA_BETA_SPY * np.log(last(sp, b) / last(sp, a)),
+               "noise_sd": day.std() * np.sqrt(n_bars)}
+        for n, m in mins.items():
+            row[f"{n}: change"] = last(m, b) - last(m, a)
+        ev.append(row)
+    pd.DataFrame(ev).to_csv(ROOT / "results/succession_haas_report.csv", index=False)
+    pd.set_option("display.width", 220)
+    print(pd.DataFrame(rows).head(12).round(3).to_string(index=False))
+    print(pd.DataFrame(ev).round(4).to_string(index=False))
+
+
 def raw() -> None:
     j = get(f"{KALSHI}/series/KXCEONVDA/markets/KXCEONVDA-01JAN33-01DEC26/candlesticks",
             start_ts=ts("2026-11-11 19:00"), end_ts=ts("2026-11-11 20:00"), period_interval=60)
@@ -235,4 +308,4 @@ def raw() -> None:
 
 
 if __name__ == "__main__":
-    {"discover": discover, "fetch": fetch, "analyze": analyze, "raw": raw}[sys.argv[1] if len(sys.argv) > 1 else "discover"]()
+    {"discover": discover, "fetch": fetch, "analyze": analyze, "raw": raw, "succession_fetch": succession_fetch, "succession_analyze": succession_analyze}[sys.argv[1] if len(sys.argv) > 1 else "discover"]()

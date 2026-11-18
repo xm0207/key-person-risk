@@ -19,6 +19,7 @@ prices:    ## Yahoo Finance daily closes -> data/keyperson.duckdb, and daily and
 	$(PY) scripts/download_data.py
 	$(PY) scripts/nvidia_sessions.py --refresh
 	$(PY) scripts/prediction_markets.py fetch
+	$(PY) scripts/prediction_markets.py succession_fetch
 
 sample:    ## departures, their features, and the headline candidates
 	$(PY) scripts/build_event_sample.py
@@ -34,6 +35,7 @@ analysis:  ## event studies -> results/
 	$(PY) scripts/successor_origin.py
 	$(PY) scripts/nvidia_attribution.py
 	$(PY) scripts/prediction_markets.py analyze
+	$(PY) scripts/prediction_markets.py succession_analyze
 
 tables:    ## paper/tables/*.tex and paper/fig_paths.pdf
 	$(PY) scripts/paper_assets.py

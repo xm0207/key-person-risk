@@ -35,9 +35,8 @@ Nvidia,episode with the chip basket,-0.1974060890533065,$-19.7$\%,True
 Nvidia,9-10 Nov with the chip basket,-0.1370063119842948,$-13.7$\%,True
 Nvidia,"4 Nov abnormal, model A",-0.0601547079191206,$-6.0$\%,True
 Nvidia,"4 Nov abnormal, with chips",-0.0503758770764518,$-5.0$\%,True
-Nvidia,episode without 4 Nov,-0.1463609554176064,$-14.6$\%,True
+Nvidia,episode without 4 Nov and with it,-0.1463609554176064,between 14.6\% and 20.7\% of Nvidia's value,True
 Nvidia,5-6 Nov abnormal,0.0154631469223032,$+1.5$\%,True
-Nvidia,"episode in dollars ($tn, value on 28 Oct)",1.0813881329923378,about \$1.1 trillion,True
 Nvidia,chip basket 9-10 Nov,0.08156698504529514,8.2\%,True
 Nvidia,AMD 9-10 Nov,0.14735883700464236,AMD rose by 14.7\%,True
 Nvidia,Broadcom 9-10 Nov,0.13037559408431365,Broadcom by 13.0\%,True
@@ -66,8 +65,7 @@ Nvidia,announcement: rises in p,0.09999999999999998,"by 10 percentage points on 
 Nvidia,"announcement: rise in p, Dec",0.30000000000000004,by 30 points on the contract with a deadline of 1 December,True
 Nvidia,announcement: K - D with the 2029 contract,0.28916168863859404,$K - D$ was 28.9\% of Nvidia's value with the 2029 contract,True
 Nvidia,announcement: K - D with the 2027 and Dec contracts,0.13143713119936093,and 13.1\% or 9.6\% with the contracts,True
-Nvidia,episode without 4 Nov ($tn),0.7663970749954864,about \$0.8 trillion,True
-Nvidia,abstract range in dollars,0.7663970749954864,(\$0.8 to \$1.1 trillion),True
+Nvidia,episode range in dollars,0.7663970749954864,about \$0.8 trillion to \$1.1 trillion,True
 Nvidia,evening: 2029 contract,0.545,$p$ rose from 54.5\% to 96.5\%,True
 Nvidia,rest of pre-market,-0.022824717381137,$-2.3$\%,True
 Nvidia,close to close (5-minute),-0.0388959579012444,$-3.9$\%,True
@@ -80,6 +78,20 @@ Nvidia,17 Nov: offer to return: odds change range (pp),0.009999999999999898,by 1
 Nvidia,17 Nov: chair rules out a return on the call: abnormal range,-0.0100908005858809,from $-1.0$\% to $+3.0$\%,True
 Nvidia,Polymarket: P(>4T | named),0.3814432989690721,38\% probability,True
 Nvidia,Polymarket: P(>4T | not named),0.5026737967914437,and 50\% if he were not,True
+Successor markets,Rene Haas: Kalshi midpoint,0.275,"Rene Haas, the chief executive of Arm, at 27.5\%",True
+Successor markets,Ian Buck: Kalshi midpoint,0.155,"Ian Buck, an Nvidia executive, at 15.5\%",True
+Successor markets,Jensen Huang: Kalshi midpoint,0.105,Mr Huang at 10.5\%,True
+Successor markets,Colette Kress: Kalshi midpoint,0.075,"Colette Kress, the interim chief executive, at 7.5\%",True
+Successor markets,number of outcomes,37.0,Kalshi lists 37 outcomes,True
+Successor markets,sum of midpoints,1.0249999999999997,sum to 102.5\%,True
+Successor markets,named before 1 Feb 2027,0.485,before 1 February 2027 at 48.5\%,True
+Successor markets,Haas report: odds changes,0.2199999999999999,rose by 22 percentage points and those of Mr Buck and Ms Kress fell by 9 and 3 points,True
+Successor markets,Haas report: Nvidia abnormal,0.0001532227977995,Nvidia's abnormal return was $+0.02$\%,True
+Successor markets,Haas report: 30-minute noise,0.0045095206486608,the standard deviation of Nvidia's abnormal return was 0.45\%,True
+Successor markets,Haas: value difference,0.0006964672627250004,"by 0.1\% of Nvidia's value, with a standard error of about 2 percentage points",True
+Successor markets,joint contracts: volume range,218.0,"between \$218 and \$1,111",True
+Successor markets,joint contracts: widest spread,0.24999999999999997,up to 25 cents apart,True
+Successor markets,Polymarket return by end-2026,0.0795,traded at about 8\%,True
 Successors,forced departures with a successor,1211.0,"1,211 forced departures",True
 Successors,in office within 30 days,725.0,725 had a successor in office within 30 days,True
 Successors,outsider,0.0103950547441244,"was $+1.0$\% (mean $+4.6$\%, standard error 4.0, 54 cases)",True

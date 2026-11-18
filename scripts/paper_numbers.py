@@ -151,7 +151,8 @@ def main() -> None:
     add("Nvidia", "Nvidia: 13-17 November, company-specific", after, pc(after, math=True))
 
     nvidia_extra(add, px)
-    successor_numbers(add)
+    succession_numbers(add)
+    successor_numbers_appendix(add)
 
     out = pd.DataFrame(rows)
     tex = TEX.read_text()
@@ -180,10 +181,9 @@ def nvidia_extra(add, px: pd.Series) -> None:
         pc(b["9-10 Nov: board investigation; CEO's email"], math=True))
     add("Nvidia", "4 Nov abnormal, model A", d4, pc(d4, math=True))
     add("Nvidia", "4 Nov abnormal, with chips", b["4 Nov: day after the election"], pc(b["4 Nov: day after the election"], math=True))
-    add("Nvidia", "episode without 4 Nov", ep - d4, pc(ep - d4, math=True))
+    add("Nvidia", "episode without 4 Nov and with it", ep - d4, f"between {pc(ep - d4)} and {pc(ep)} of Nvidia's value")
     add("Nvidia", "5-6 Nov abnormal", a["5-6 Nov: House request; memo report"], pc(a["5-6 Nov: House request; memo report"], sign=True, math=True))
-    add("Nvidia", "episode in dollars ($tn, value on 28 Oct)", -ep * SHARES_OUTSTANDING * px["2026-10-28"] / 1e12,
-        f"about \\${-ep * SHARES_OUTSTANDING * px['2026-10-28'] / 1e12:.1f} trillion")
+
 
     import keyperson.data as kd
     from keyperson.config import FIRMS, MIN_BASKET_MEMBERS
@@ -233,8 +233,7 @@ def nvidia_extra(add, px: pd.Series) -> None:
     ep = pd.read_csv(ROOT / "results/nvidia_attribution.csv").set_index("model").loc["A: SPY + mega-caps"]
     ex4 = ep["29 Oct - 17 Nov: episode"] - ep["4 Nov: day after the election"]
     v28 = SHARES_OUTSTANDING * px["2026-10-28"] / 1e12
-    add("Nvidia", "episode without 4 Nov ($tn)", -ex4 * v28, f"about \\${-ex4 * v28:.1f} trillion")
-    add("Nvidia", "abstract range in dollars", -ex4 * v28, f"(\\${-ex4 * v28:.1f} to \\${-ep['29 Oct - 17 Nov: episode'] * v28:.1f} trillion)")
+    add("Nvidia", "episode range in dollars", -ex4 * v28, f"about \\${-ex4 * v28:.1f} trillion to \\${-ep['29 Oct - 17 Nov: episode'] * v28:.1f} trillion")
     ev29 = (ev["exit_by_2029_start"], ev["exit_by_2029_end"])
     add("Nvidia", "evening: 2029 contract", ev29[0], f"$p$ rose from {100 * ev29[0]:.1f}\\% to {100 * ev29[1]:.1f}\\%")
     add("Nvidia", "rest of pre-market", st.loc["12 Nov, 08:55-09:30: rest of the pre-market session", "nvidia_abnormal"],
@@ -260,7 +259,38 @@ def nvidia_extra(add, px: pd.Series) -> None:
     add("Nvidia", "Polymarket: P(>4T | not named)", cond["p_above_4T_if_not_named"], f"and {100 * cond['p_above_4T_if_not_named']:.0f}\\% if he were not")
 
 
-def successor_numbers(add) -> None:
+def succession_numbers(add) -> None:
+    """Kalshi's markets on Nvidia's next permanent CEO, the report on Rene Haas, and Polymarket's joint contracts."""
+    import json
+    k = pd.read_csv(ROOT / "results/succession_markets.csv")
+    c = k[k["table"] == "candidate"].set_index("outcome")["mid"]
+    for name, txt in [("Rene Haas", "Rene Haas, the chief executive of Arm, at {}"), ("Ian Buck", "Ian Buck, an Nvidia executive, at {}"),
+                      ("Jensen Huang", "Mr Huang at {}"), ("Colette Kress", "Colette Kress, the interim chief executive, at {}")]:
+        add("Successor markets", f"{name}: Kalshi midpoint", c[name], txt.format(f"{100 * c[name]:.1f}\\%"))
+    add("Successor markets", "number of outcomes", len(c) - 1, f"Kalshi lists {len(c) - 1} outcomes")
+    add("Successor markets", "sum of midpoints", c["sum of midpoints, all candidates"], f"sum to {100 * c['sum of midpoints, all candidates']:.1f}\\%")
+    feb = k[k["outcome"] == "Before Feb 1, 2027"]["mid"].iloc[0]
+    add("Successor markets", "named before 1 Feb 2027", feb, f"before 1 February 2027 at {100 * feb:.1f}\\%")
+    h = pd.read_csv(ROOT / "results/succession_haas_report.csv").set_index(["start_et", "end_et"]).loc[("2026-11-13 11:45", "2026-11-13 12:15")]
+    add("Successor markets", "Haas report: odds changes", h["Rene Haas: change"],
+        f"rose by {100 * h['Rene Haas: change']:.0f} percentage points and those of Mr Buck and Ms Kress fell by {-100 * h['Ian Buck: change']:.0f} and {-100 * h['Colette Kress: change']:.0f} points")
+    add("Successor markets", "Haas report: Nvidia abnormal", h["nvidia_abnormal"], f"Nvidia's abnormal return was ${100 * h['nvidia_abnormal']:+.2f}$\\%")
+    add("Successor markets", "Haas report: 30-minute noise", h["noise_sd"], f"the standard deviation of Nvidia's abnormal return was {100 * h['noise_sd']:.2f}\\%")
+    v, se_v = h["nvidia_abnormal"] / h["Rene Haas: change"], h["noise_sd"] / h["Rene Haas: change"]
+    add("Successor markets", "Haas: value difference", v, f"by {100 * v:.1f}\\% of Nvidia's value, with a standard error of about {100 * se_v:.0f} percentage points")
+    meta = pd.DataFrame(json.loads((ROOT / "data/prediction_markets/succession/polymarket_meta.json").read_text()))
+    meta[["volume", "best_bid", "best_ask"]] = meta[["volume", "best_bid", "best_ask"]].astype(float)
+    joint = meta[meta["event"].str.contains("market-cap")]
+    add("Successor markets", "joint contracts: volume range", joint["volume"].min(),
+        f"between \\${joint['volume'].min():,.0f} and \\${joint['volume'].max():,.0f}")
+    add("Successor markets", "joint contracts: widest spread", (joint["best_ask"] - joint["best_bid"]).max(),
+        f"up to {100 * (joint['best_ask'] - joint['best_bid']).max():.0f} cents apart")
+    rej = meta[meta["question"].str.contains("December 31, 2026") & meta["event"].str.contains("rejoins")].iloc[0]
+    add("Successor markets", "Polymarket return by end-2026", (rej["best_bid"] + rej["best_ask"]) / 2,
+        f"traded at about {100 * (rej['best_bid'] + rej['best_ask']) / 2:.0f}\\%")
+
+
+def successor_numbers_appendix(add) -> None:
     k = pd.read_csv(ROOT / "results/successor_origin.csv").set_index("group")
     a, o, i = (k.loc["forced: all with an identified successor"], k.loc["forced: named at the departure, outsider"],
                k.loc["forced: named at the departure, insider"])

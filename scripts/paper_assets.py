@@ -269,19 +269,23 @@ def figure(d: pd.DataFrame) -> None:
     ev = pd.DataFrame({"event_id": d["case"], "ticker": d["permno"].astype("int64").astype(str), "day0": d["first_news"]})
     w, _, _ = eng.run(ev)
     w = w[w["window"] != "anchor"].merge(d[["case", "disclosure"]], left_on="event_id", right_on="case")
-    fig, ax = plt.subplots(figsize=(6.5, 3.6))
-    styles = {"one-stage": ("#1f77b4", "-"), "two-stage": ("#d62728", "-"), "survived": ("#2ca02c", "--")}
-    for k in ORDER:
-        g = w[w["disclosure"] == k]
-        path = (g["car"] + g["alpha_part"]).groupby(g["rel_start"]).mean().sort_index().cumsum()
-        n = g["event_id"].nunique()
-        ax.plot(path.index, 100 * path.values, color=styles[k][0], ls=styles[k][1], label=f"{LABEL[k]} (n = {n})")
-    med = (d.loc[d["disclosure"] == "two-stage", "exit_date"] - d.loc[d["disclosure"] == "two-stage", "first_news"]).dt.days.median()
-    ax.axvline(0, color="grey", lw=0.8)
-    ax.set_xlabel("Trading days from the first public news")
-    ax.set_ylabel("Mean cumulative abnormal return, %")
-    ax.legend(frameon=False, fontsize=8)
-    ax.text(0.5, ax.get_ylim()[0] * 0.95, "first news", fontsize=7, color="grey")
+    two = d[d["disclosure"] == "two-stage"]
+    w2 = w[w["disclosure"] == "two-stage"]
+    ex = pd.DataFrame({"event_id": two["case"], "ticker": two["permno"].astype("int64").astype(str), "day0": two["exit_date"]})
+    we, _, _ = eng.run(ex)
+    we = we[we["window"] != "anchor"]
+    med = (two["exit_date"] - two["first_news"]).dt.days.median()
+    fig, axes = plt.subplots(1, 2, figsize=(7.0, 3.2), sharey=True)
+    for ax, g, lo, hi, title in [(axes[0], w2, -10, 10, "Around the first news"), (axes[1], we, -10, 10, "Around the departure")]:
+        g = g[(g["rel_start"] >= lo) & (g["rel_start"] <= hi)]
+        daily = (g["car"] + g["alpha_part"]).groupby(g["rel_start"]).mean().sort_index()
+        path = daily.cumsum() - daily.loc[:-2].sum()   # cumulated from day -1
+        ax.plot(path.index, 100 * path.values, color="#d62728")
+        ax.axvline(0, color="grey", lw=0.8)
+        ax.axhline(0, color="grey", lw=0.5)
+        ax.set_title(title, fontsize=9)
+        ax.set_xlabel("Trading days", fontsize=8)
+    axes[0].set_ylabel("Mean cumulative abnormal return, %", fontsize=8)
     fig.tight_layout()
     fig.savefig(ROOT / "paper/fig_paths.pdf")
     write("v_median_gap.tex", f"{med:.0f}")

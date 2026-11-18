@@ -1,4 +1,4 @@
-# CEO scandals and stock prices: Nvidia in 2026 and 79 earlier cases
+# Asset or liability? CEO scandals, share prices and prediction markets
 
 All numbers below are Nvidia's own share-price moves: its return minus what the S&P 500 and the six other largest US tech stocks explain. Prices run to the close of 17 November 2026.
 
@@ -55,7 +55,7 @@ make all       # sample -> analysis -> tables -> text numbers -> PDF -> tests
 | WRDS (subscription) | CRSP daily stock file and names, Compustat (annual and quarterly), ExecuComp, the CRSP/Compustat link, Fama–French factors, RavenPack (Dow Jones edition) | `data/wrds/`. The web-query extracts are listed in `data/wrds/MANIFEST.md`; the rest come from `make wrds` |
 | Zenodo | Gentry, Harrison, Quigley and Boivie (2021) CEO dismissal database, version of 10 October 2024 ([10.5281/zenodo.17725939](https://doi.org/10.5281/zenodo.17725939)), CC BY 4.0 | `data/external/gentry/` |
 | Yahoo Finance | daily closes for Nvidia, the S&P 500 (SPY), six other mega-caps, nine other chip makers and sector funds, to 17 November 2026; daily, hourly and five-minute bars with extended hours | `data/keyperson.duckdb`, `data/yahoo_sessions/`, `data/prediction_markets/` |
-| Kalshi, Polymarket | public price histories of the contracts on Nvidia's chief executive | `data/prediction_markets/` |
+| Kalshi, Polymarket | public price histories of the contracts on Nvidia's chief executive and on his successor | `data/prediction_markets/` |
 | Crossref | bibliographic records of the references | `data/crossref/` (cache) |
 
 Nothing in `data/` is committed.
@@ -71,12 +71,12 @@ Nothing in `data/` is committed.
 | Sample | `build_event_sample.py` | Gentry database, CCM link, Compustat, RavenPack mappings | `data/derived/event_sample.parquet` | all CEO departures |
 | | `build_event_features.py` | event sample, ExecuComp, Compustat, RavenPack | `data/derived/event_features.parquet` | departure study |
 | | `build_scandal_candidates.py` | stage-4 headlines, ExecuComp | `data/derived/scandal_candidates*.csv` | hand coding |
-| Analysis | `run_departure_study.py` | event sample, features, stage-3 CRSP | `data/derived/departure_windows.parquet`, `results/departure_*.csv` | personal against corporate departures (Section 4.2), successors (Appendix C) |
-| | `run_personal_scandals.py` | sample, hand codes, date corrections, stage-4 CRSP | `data/derived/personal_scandals.parquet`, `results/personal_scandal_*.csv` | Section 4, Appendix B |
-| | `nvidia_timeline.py` | Yahoo prices | `results/nvidia_timeline.csv` | Section 5.1 |
-| | `nvidia_sessions.py` | Yahoo daily and hourly bars with extended hours | `results/nvidia_sessions.csv`, `results/nvidia_session_days.csv`, `data/derived/nvidia_session_path.parquet` | Section 5.3, Figure 2 |
+| Analysis | `run_departure_study.py` | event sample, features, stage-3 CRSP | `data/derived/departure_windows.parquet`, `results/departure_*.csv` | personal against corporate departures (Appendix D), successors (Appendix C) |
+| | `run_personal_scandals.py` | sample, hand codes, date corrections, stage-4 CRSP | `data/derived/personal_scandals.parquet`, `results/personal_scandal_*.csv` | Section 4, Appendices B and D |
+| | `nvidia_timeline.py` | Yahoo prices | `results/nvidia_timeline.csv` | Section 5.1, Table 2 |
+| | `nvidia_sessions.py` | Yahoo daily and hourly bars with extended hours | `results/nvidia_sessions.csv`, `results/nvidia_session_days.csv`, `data/derived/nvidia_session_path.parquet` | Section 5.3, Figure 2, Appendix E |
 | | `nvidia_attribution.py` | Yahoo prices, including nine other chip makers | `results/nvidia_attribution.csv` | Section 5.2 |
-| | `prediction_markets.py` | Kalshi and Polymarket price histories, Yahoo five-minute prices | `results/prediction_market_*.csv` | Sections 5.3 and 5.4, Table 6 |
+| | `prediction_markets.py` | Kalshi and Polymarket price histories, Yahoo five-minute prices | `results/prediction_market_*.csv`, `results/succession_*.csv` | Sections 5.3 to 5.6, Table 3 |
 | | `successors.py` | hand-checked successor announcements, stage-4 CRSP | `results/successor_summary.csv` | Appendix C |
 | | `successor_origin.py` | departure study, ExecuComp | `results/successor_origin.csv` | Appendix C |
 | Paper | `paper_assets.py` | the outputs above | `paper/tables/*.tex`, `paper/fig_paths.pdf`, `paper/fig_nvidia.pdf` | all tables, Figures 1–2 |
