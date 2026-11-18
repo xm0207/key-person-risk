@@ -4,7 +4,7 @@ All numbers below are Nvidia's own share-price moves: its return minus what the 
 
 ## What happened to Nvidia's share price
 
-**1. In earlier scandals, investors usually wanted the CEO gone. At Nvidia they did not.** Of 79 personal-conduct scandals involving US CEOs since 2000, 8 became public before the CEO left. In 7 of those 8, the stock rose when the CEO went. At Nvidia, the stock fell each time the Kalshi odds of Huang leaving jumped.
+**1. In earlier scandals, investors usually wanted the CEO gone. At Nvidia the evidence is mixed.** Of 79 personal-conduct scandals involving US CEOs since 2000, 8 became public before the CEO left. In 7 of those 8, the stock rose when the CEO went. At Nvidia, the stock fell 2.9% in the ten minutes before the open in which the resignation was announced, the one step without new allegations. Regular trading reversed that fall, and closing prices cannot tell whether losing Huang cost Nvidia more or less than keeping him.
 
 **2. The board's statement moved the stock, and the move was specific to Nvidia.**
 - After the first newspaper report, Nvidia's own move was about −1%.
@@ -15,10 +15,11 @@ All numbers below are Nvidia's own share-price moves: its return minus what the 
 - New allegations reached the market just before 5 pm on 11 November. By 8 pm the odds of a departure before 2027 had gone from 18.5% to 88.5%, and Nvidia fell 7.0% in after-hours trading.
 - The resignation was announced before the open on 12 November (filing accepted at 8:52 am). In those ten minutes the odds went to 99.5% and Nvidia fell 2.9%.
 - Regular trading then lifted Nvidia 8.8% with the odds unchanged. On closing prices, 12 November shows −3.5%.
+- Over the episode Nvidia's own move was −20.7% (about $1.1 trillion), or −14.6% without 4 November, a day with no news about Nvidia.
 
 **4. Most of the moves happened while the main market was closed.** During the three weeks, 69% of Nvidia's own price moves happened before 9:30 am or after 4 pm. In the two months before, the figure was 26–36%.
 
-**5. Successors.** In 1,211 forced CEO departures since 2000, the stock fell 2.7% on average when no permanent successor was in place at the departure, against 0.4% when one was.
+**5. Successors (exploratory, Appendix C).** In 1,211 forced CEO departures since 2000, the stock fell 2.7% on average when no permanent successor was in place at the departure, against 0.4% when one was.
 
 The working paper, with the details of every case, is [paper/personal_scandals.pdf](paper/personal_scandals.pdf).
 
@@ -70,14 +71,14 @@ Nothing in `data/` is committed.
 | Sample | `build_event_sample.py` | Gentry database, CCM link, Compustat, RavenPack mappings | `data/derived/event_sample.parquet` | all CEO departures |
 | | `build_event_features.py` | event sample, ExecuComp, Compustat, RavenPack | `data/derived/event_features.parquet` | departure study |
 | | `build_scandal_candidates.py` | stage-4 headlines, ExecuComp | `data/derived/scandal_candidates*.csv` | hand coding |
-| Analysis | `run_departure_study.py` | event sample, features, stage-3 CRSP | `data/derived/departure_windows.parquet`, `results/departure_*.csv` | personal against corporate departures (Section 4.2), successors (Section 5.5) |
+| Analysis | `run_departure_study.py` | event sample, features, stage-3 CRSP | `data/derived/departure_windows.parquet`, `results/departure_*.csv` | personal against corporate departures (Section 4.2), successors (Appendix C) |
 | | `run_personal_scandals.py` | sample, hand codes, date corrections, stage-4 CRSP | `data/derived/personal_scandals.parquet`, `results/personal_scandal_*.csv` | Section 4, Appendix B |
 | | `nvidia_timeline.py` | Yahoo prices | `results/nvidia_timeline.csv` | Section 5.1 |
 | | `nvidia_sessions.py` | Yahoo daily and hourly bars with extended hours | `results/nvidia_sessions.csv`, `results/nvidia_session_days.csv`, `data/derived/nvidia_session_path.parquet` | Section 5.2, Figure 2 |
 | | `nvidia_attribution.py` | Yahoo prices, including nine other chip makers | `results/nvidia_attribution.csv` | Section 5.4 |
 | | `prediction_markets.py` | Kalshi and Polymarket price histories, Yahoo five-minute prices | `results/prediction_market_*.csv` | Sections 5.2 and 5.3, Table 6 |
-| | `successors.py` | hand-checked successor announcements, stage-4 CRSP | `results/successor_summary.csv` | Section 5.5 |
-| | `successor_origin.py` | departure study, ExecuComp | `results/successor_origin.csv` | Section 5.5, Table 9 |
+| | `successors.py` | hand-checked successor announcements, stage-4 CRSP | `results/successor_summary.csv` | Appendix C |
+| | `successor_origin.py` | departure study, ExecuComp | `results/successor_origin.csv` | Appendix C |
 | Paper | `paper_assets.py` | the outputs above | `paper/tables/*.tex`, `paper/fig_paths.pdf`, `paper/fig_nvidia.pdf` | all tables, Figures 1–2 |
 | | `paper_numbers.py` | the outputs above, and the .tex | `results/paper_text_numbers.csv` | every number quoted in the text but not in a table |
 | | `verify_references.py` | Crossref | `paper/refs.bib`, `paper/references_verification.csv` | references |

@@ -63,7 +63,11 @@ Nvidia,announcement: 2027 from,0.775,from 77.5\% to 99.5\%,True
 Nvidia,announcement: abnormal,-0.0289161688638594,$-2.9$\%,True
 Nvidia,announcement: rises in p,0.09999999999999998,"by 10 percentage points on the contract with a deadline of 2029, by 22 points",True
 Nvidia,"announcement: rise in p, Dec",0.30000000000000004,by 30 points on the contract with a deadline of 1 December,True
-Nvidia,announcement: K - D,0.09638722954619798,between 9.6\% and 28.9\%,True
+Nvidia,announcement: K - D with the 2029 contract,0.28916168863859404,$K - D$ was 28.9\% of Nvidia's value with the 2029 contract,True
+Nvidia,announcement: K - D with the 2027 and Dec contracts,0.13143713119936093,and 13.1\% or 9.6\% with the contracts,True
+Nvidia,episode without 4 Nov ($tn),0.7663970749954864,about \$0.8 trillion,True
+Nvidia,abstract range in dollars,0.7663970749954864,(\$0.8 to \$1.1 trillion),True
+Nvidia,evening: 2029 contract,0.545,$p$ rose from 54.5\% to 96.5\%,True
 Nvidia,rest of pre-market,-0.022824717381137,$-2.3$\%,True
 Nvidia,close to close (5-minute),-0.0388959579012444,$-3.9$\%,True
 Nvidia,close to close: rises in p,0.44999999999999996,by 45 points on the 2029 contract and by 81 points,True

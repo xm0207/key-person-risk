@@ -226,8 +226,16 @@ def nvidia_extra(add, px: pd.Series) -> None:
     rises = [an[f"exit_by_{c}_end"] - an[f"exit_by_{c}_start"] for c in ("2029", "2027", "dec1")]
     add("Nvidia", "announcement: rises in p", rises[0], f"by {100 * rises[0]:.0f} percentage points on the contract with a deadline of 2029, by {100 * rises[1]:.0f} points")
     add("Nvidia", "announcement: rise in p, Dec", rises[2], f"by {100 * rises[2]:.0f} points on the contract with a deadline of 1 December")
-    lo, hi = -an["nvidia_abnormal"] / max(rises), -an["nvidia_abnormal"] / min(rises)
-    add("Nvidia", "announcement: K - D", lo, f"between {100 * lo:.1f}\\% and {100 * hi:.1f}\\%")
+    k29, k27, kdec = (-an["nvidia_abnormal"] / x for x in rises)
+    add("Nvidia", "announcement: K - D with the 2029 contract", k29, f"$K - D$ was {100 * k29:.1f}\\% of Nvidia's value with the 2029 contract")
+    add("Nvidia", "announcement: K - D with the 2027 and Dec contracts", k27, f"and {100 * k27:.1f}\\% or {100 * kdec:.1f}\\% with the contracts")
+    ep = pd.read_csv(ROOT / "results/nvidia_attribution.csv").set_index("model").loc["A: SPY + mega-caps"]
+    ex4 = ep["29 Oct - 17 Nov: episode"] - ep["4 Nov: day after the election"]
+    v28 = SHARES_OUTSTANDING * px["2026-10-28"] / 1e12
+    add("Nvidia", "episode without 4 Nov ($tn)", -ex4 * v28, f"about \\${-ex4 * v28:.1f} trillion")
+    add("Nvidia", "abstract range in dollars", -ex4 * v28, f"(\\${-ex4 * v28:.1f} to \\${-ep['29 Oct - 17 Nov: episode'] * v28:.1f} trillion)")
+    ev29 = (ev["exit_by_2029_start"], ev["exit_by_2029_end"])
+    add("Nvidia", "evening: 2029 contract", ev29[0], f"$p$ rose from {100 * ev29[0]:.1f}\\% to {100 * ev29[1]:.1f}\\%")
     add("Nvidia", "rest of pre-market", st.loc["12 Nov, 08:55-09:30: rest of the pre-market session", "nvidia_abnormal"],
         pc(st.loc["12 Nov, 08:55-09:30: rest of the pre-market session", "nvidia_abnormal"], math=True))
     add("Nvidia", "close to close (5-minute)", cc["nvidia_abnormal"], pc(cc["nvidia_abnormal"], math=True))
