@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-DATA_END = "2026-11-17"  # last close in the data (extended from 13 Nov on 18 Nov 2026; mega7-decomposition stops at 10 November 2026)
+DATA_END = "2026-11-18"  # last close in the data (extended from 13 Nov on 18 Nov 2026 and to 18 Nov on 19 Nov 2026; mega7-decomposition stops at 10 November 2026)
 
 FIRMS = ["AAPL", "MSFT", "GOOGL", "AMZN", "NVDA", "META", "TSLA"]
 MARKET = "SPY"

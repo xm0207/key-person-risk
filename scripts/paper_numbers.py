@@ -140,8 +140,6 @@ def main() -> None:
 
     nv = pd.read_csv(ROOT / "results/nvidia_timeline.csv")
     nv = nv[nv["start"].notna()].set_index("start")
-    episode = nv.loc[nv.index >= "2026-10-29", "car_basket"].sum()
-    add("Nvidia", "company-specific return from 29 October to the last day in the data", episode, f"{pc(episode)}")
     px = nvidia_closes()
     before = SHARES_OUTSTANDING * px["2026-10-28"] / 1e12
     add("Nvidia", "market value before the first report ($tn)", before, f"\\${before:.1f} trillion")
@@ -149,6 +147,12 @@ def main() -> None:
     add("Nvidia", "9-10 November loss in dollars ($bn, value on 6 November)", bn, f"about \\${round(bn, -2):.0f} billion")
     after = nv.loc[["2026-11-13", "2026-11-16", "2026-11-17"], "car_basket"].sum()
     add("Nvidia", "Nvidia: 13-17 November, company-specific", after, pc(after, math=True))
+    d18 = nv.loc["2026-11-18", "car_basket"]
+    add("Nvidia", "18 November, close to close", d18, f"{pc(d18, math=True)} from close to close")
+    sd = pd.read_csv(ROOT / "results/nvidia_session_days.csv").set_index("day")
+    a17, r18 = sd.loc["2026-11-17", "after"], sd.loc["2026-11-18", "regular"]
+    add("Nvidia", "17 November after hours, company-specific", a17, f"it was {pc(a17, sign=True, math=True)} in after-hours trading")
+    add("Nvidia", "18 November regular trading, company-specific", r18, f"{pc(r18, math=True)} in regular trading")
 
     nvidia_extra(add, px)
     succession_numbers(add)
@@ -175,8 +179,10 @@ def nvidia_extra(add, px: pd.Series) -> None:
 
     att = pd.read_csv(ROOT / "results/nvidia_attribution.csv").set_index("model")
     a, b = att.loc["A: SPY + mega-caps"], att.loc["B: SPY + mega-caps + chip makers"]
-    ep, d4 = a["29 Oct - 17 Nov: episode"], a["4 Nov: day after the election"]
-    add("Nvidia", "episode with the chip basket", b["29 Oct - 17 Nov: episode"], pc(b["29 Oct - 17 Nov: episode"], math=True))
+    ep, d4 = a["29 Oct - 18 Nov: episode"], a["4 Nov: day after the election"]
+    add("Nvidia", "episode with the chip basket", b["29 Oct - 18 Nov: episode"], pc(b["29 Oct - 18 Nov: episode"], math=True))
+    add("Nvidia", "18 Nov with the chip basket", b["18 Nov: first session after the results"],
+        f"or {pc(b['18 Nov: first session after the results'], math=True)} with the chip basket")
     add("Nvidia", "9-10 Nov with the chip basket", b["9-10 Nov: board investigation; CEO's email"],
         pc(b["9-10 Nov: board investigation; CEO's email"], math=True))
     add("Nvidia", "4 Nov abnormal, model A", d4, pc(d4, math=True))
@@ -229,9 +235,9 @@ def nvidia_extra(add, px: pd.Series) -> None:
     add("Nvidia", "announcement: K - D with the 2029 contract", k29, f"$K - D$ was {100 * k29:.1f}\\% of Nvidia's value with the 2029 contract")
     add("Nvidia", "announcement: K - D with the 2027 and Dec contracts", k27, f"and {100 * k27:.1f}\\% or {100 * kdec:.1f}\\% with the contracts")
     ep = pd.read_csv(ROOT / "results/nvidia_attribution.csv").set_index("model").loc["A: SPY + mega-caps"]
-    ex4 = ep["29 Oct - 17 Nov: episode"] - ep["4 Nov: day after the election"]
+    ex4 = ep["29 Oct - 18 Nov: episode"] - ep["4 Nov: day after the election"]
     v28 = SHARES_OUTSTANDING * px["2026-10-28"] / 1e12
-    add("Nvidia", "episode range in dollars", -ex4 * v28, f"about \\${-ex4 * v28:.1f} trillion to \\${-ep['29 Oct - 17 Nov: episode'] * v28:.1f} trillion")
+    add("Nvidia", "episode range in dollars", -ex4 * v28, f"about \\${-ex4 * v28:.1f} trillion to \\${-ep['29 Oct - 18 Nov: episode'] * v28:.1f} trillion")
     ev29 = (ev["exit_by_2029_start"], ev["exit_by_2029_end"])
     add("Nvidia", "evening: 2029 contract", ev29[0], f"$p$ rose from {100 * ev29[0]:.1f}\\% to {100 * ev29[1]:.1f}\\%")
     add("Nvidia", "rest of pre-market", st.loc["12 Nov, 08:55-09:30: rest of the pre-market session", "nvidia_abnormal"],
@@ -255,6 +261,10 @@ def nvidia_extra(add, px: pd.Series) -> None:
     cond = pd.read_csv(ROOT / "results/prediction_market_conditional.csv").iloc[0]
     add("Nvidia", "Polymarket: P(>4T | named)", cond["p_above_4T_if_named"], f"{100 * cond['p_above_4T_if_named']:.0f}\\% probability")
     add("Nvidia", "Polymarket: P(>4T | not named)", cond["p_above_4T_if_not_named"], f"and {100 * cond['p_above_4T_if_not_named']:.0f}\\% if he were not")
+    add("Nvidia", "Polymarket joint contracts: P(named)", cond["p_named"], f"imply a {100 * cond['p_named']:.0f}\\% probability that he is named")
+    at = pd.Timestamp(cond["as_of_et"])
+    add("Nvidia", "Polymarket: time of the quotes", at.hour * 60 + at.minute,
+        f"at {at.hour % 12 or 12}:{at.minute:02d} {'am' if at.hour < 12 else 'pm'} on {at.day} November")
 
 
 def succession_numbers(add) -> None:
@@ -266,6 +276,9 @@ def succession_numbers(add) -> None:
                       ("Jensen Huang", "Mr Huang at {}"), ("Colette Kress", "Colette Kress, the interim chief executive, at {}")]:
         add("Successor markets", f"{name}: Kalshi midpoint", c[name], txt.format(f"{100 * c[name]:.1f}\\%"))
     add("Successor markets", "number of outcomes", len(c) - 1, f"Kalshi lists {len(c) - 1} outcomes")
+    add("Successor markets", "Huang, in the prediction", c["Jensen Huang"], f"which Kalshi priced at {100 * c['Jensen Huang']:.1f}\\%")
+    snap = pd.Timestamp(k["as_of_et"].iloc[0])
+    add("Successor markets", "time of the snapshot", snap.hour, "At the close on 18 November" if snap.hour == 16 else f"At {snap.hour % 12} pm on 18 November")
     add("Successor markets", "sum of midpoints", c["sum of midpoints, all candidates"], f"sum to {100 * c['sum of midpoints, all candidates']:.1f}\\%")
     feb = k[k["outcome"] == "Before Feb 1, 2027"]["mid"].iloc[0]
     add("Successor markets", "named before 1 Feb 2027", feb, f"before 1 February 2027 at {100 * feb:.1f}\\%")

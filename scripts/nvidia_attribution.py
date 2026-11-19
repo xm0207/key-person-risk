@@ -1,4 +1,4 @@
-"""Nvidia, 29 October - 17 November 2026: how much of the share-price fall came from the market, from the other
+"""Nvidia, 29 October - 18 November 2026: how much of the share-price fall came from the market, from the other
 mega-caps, from other chip makers, and from Nvidia itself?
 
 Three benchmarks, each estimated by OLS on daily returns over the window of nvidia_timeline.py (250 trading
@@ -40,7 +40,9 @@ WINDOWS = {
     "9-10 Nov: board investigation; CEO's email": ("2026-11-09", "2026-11-10"),
     "11-12 Nov: evening reports; resignation": ("2026-11-11", "2026-11-12"),
     "13-17 Nov: after the resignation": ("2026-11-13", "2026-11-17"),
-    "29 Oct - 17 Nov: episode": ("2026-10-29", "2026-11-17"),
+    "18 Nov: first session after the results": ("2026-11-18", "2026-11-18"),
+    "29 Oct - 17 Nov: to the results": ("2026-10-29", "2026-11-17"),
+    "29 Oct - 18 Nov: episode": ("2026-10-29", "2026-11-18"),
 }
 MODELS = {"A: SPY + mega-caps": ["SPY", "mega"], "B: SPY + mega-caps + chip makers": ["SPY", "mega", "chips"],
           "C: SPY + chip makers": ["SPY", "chips"]}

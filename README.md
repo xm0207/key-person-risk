@@ -1,6 +1,6 @@
 # Asset or liability? CEO scandals, share prices and prediction markets
 
-All numbers below are Nvidia's own share-price moves: its return minus what the S&P 500 and the six other largest US tech stocks explain. Prices run to the close of 17 November 2026.
+All numbers below are Nvidia's own share-price moves: its return minus what the S&P 500 and the six other largest US tech stocks explain. Prices run to the close of 18 November 2026.
 
 ## What happened to Nvidia's share price
 
@@ -15,9 +15,10 @@ All numbers below are Nvidia's own share-price moves: its return minus what the 
 - New allegations reached the market just before 5 pm on 11 November. By 8 pm the odds of a departure before 2027 had gone from 18.5% to 88.5%, and Nvidia fell 7.0% in after-hours trading.
 - The resignation was announced before the open on 12 November (filing accepted at 8:52 am). In those ten minutes the odds went to 99.5% and Nvidia fell 2.9%.
 - Regular trading then lifted Nvidia 8.8% with the odds unchanged. On closing prices, 12 November shows −3.5%.
-- Over the episode Nvidia's own move was −20.7% (about $1.1 trillion), or −14.6% without 4 November, a day with no news about Nvidia.
+- After the quarterly results of 17 November, Nvidia rose 2.5% in after-hours trading and fell 4.3% in regular trading on 18 November; on closing prices, 18 November shows −2.1%.
+- From 29 October to 18 November Nvidia's own move was −22.7% (about $1.2 trillion), or −16.7% without 4 November, a day with no news about Nvidia.
 
-**4. Most of the moves happened while the main market was closed.** During the three weeks, 69% of Nvidia's own price moves happened before 9:30 am or after 4 pm. In the two months before, the figure was 26–36%.
+**4. Most of the moves happened while the main market was closed.** During the three weeks, 63% of Nvidia's own price moves happened before 9:30 am or after 4 pm. In the two months before, the figure was 26–36%.
 
 **5. Successors (exploratory, Appendix C).** In 1,211 forced CEO departures since 2000, the stock fell 2.7% on average when no permanent successor was in place at the departure, against 0.4% when one was.
 
@@ -54,7 +55,7 @@ make all       # sample -> analysis -> tables -> text numbers -> PDF -> tests
 |---|---|---|
 | WRDS (subscription) | CRSP daily stock file and names, Compustat (annual and quarterly), ExecuComp, the CRSP/Compustat link, Fama–French factors, RavenPack (Dow Jones edition) | `data/wrds/`. The web-query extracts are listed in `data/wrds/MANIFEST.md`; the rest come from `make wrds` |
 | Zenodo | Gentry, Harrison, Quigley and Boivie (2021) CEO dismissal database, version of 10 October 2024 ([10.5281/zenodo.17725939](https://doi.org/10.5281/zenodo.17725939)), CC BY 4.0 | `data/external/gentry/` |
-| Yahoo Finance | daily closes for Nvidia, the S&P 500 (SPY), six other mega-caps, nine other chip makers and sector funds, to 17 November 2026; daily, hourly and five-minute bars with extended hours | `data/keyperson.duckdb`, `data/yahoo_sessions/`, `data/prediction_markets/` |
+| Yahoo Finance | daily closes for Nvidia, the S&P 500 (SPY), six other mega-caps, nine other chip makers and sector funds, to 18 November 2026; daily, hourly and five-minute bars with extended hours | `data/keyperson.duckdb`, `data/yahoo_sessions/`, `data/prediction_markets/` |
 | Kalshi, Polymarket | public price histories of the contracts on Nvidia's chief executive and on his successor | `data/prediction_markets/` |
 | Crossref | bibliographic records of the references | `data/crossref/` (cache) |
 

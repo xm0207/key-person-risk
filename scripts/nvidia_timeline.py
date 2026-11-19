@@ -11,7 +11,7 @@ EDGAR at 08:52 ET on 12 Nov, before the open.
 
 Main specification: market plus an equal-weight basket of the other six mega-caps (the sector ETF SMH holds Nvidia
 and absorbs part of its own shock); robustness: market plus SMH, and market only. One estimation window for all
-dates: 250 trading days ending 81 trading days before 29 October. Prices: Yahoo Finance to the close of 17 November
+dates: 250 trading days ending 81 trading days before 29 October. Prices: Yahoo Finance to the close of 18 November
 2026 (personal use; only these window sums are written).
 
     ~/.venvs/key-person-risk/bin/python scripts/nvidia_timeline.py
@@ -39,6 +39,7 @@ WINDOWS = (
     Window("13 Nov", 11, 11),
     Window("16 Nov: report that the board is not considering a return", 12, 12),
     Window("17 Nov: former CEO offers to return (results after the close)", 13, 13),
+    Window("18 Nov: first session after the results", 14, 14),
     Window("anchor", -60, -60),
 )
 SPECS = {"basket": "basket_ex_NVDA", "smh": "SMH", "market_only": None}

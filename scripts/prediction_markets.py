@@ -253,7 +253,7 @@ def succession_fetch() -> None:
 
 
 HAAS_NEWS = "2026-11-13 11:50"   # largest move in the Haas contract on 13 Nov; the FT report is dated that day
-SNAPSHOT = "2026-11-18 14:00"
+SNAPSHOT = "2026-11-18 16:00"   # close of regular trading on the last day in the data
 
 
 def succession_analyze() -> None:

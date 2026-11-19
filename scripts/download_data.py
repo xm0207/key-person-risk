@@ -4,7 +4,7 @@ Prices come through mega7's `YahooClient` and are stored with mega7's `PriceStor
 observations(dataset, series, date, value), dataset 'price'). Yahoo data are for personal use: the
 database lives in data/, which is not committed, and nothing in results/ is a price or return series.
 
-Every series is cut at `--end` (default: the project's data cut-off, 17 November 2026; 13 November until 18 November 2026). On 16 November
+Every series is cut at `--end` (default: the project's data cut-off, 18 November 2026; 13 November until 18 November 2026 and 17 November until 19 November 2026). On 16 November
 2026 a fresh download agreed with the mega7-decomposition database (downloaded 11 November) to within
 2e-6 in every daily return up to 10 November 2026.
 
